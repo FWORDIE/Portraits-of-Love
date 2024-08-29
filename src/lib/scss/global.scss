@@ -1,61 +1,231 @@
 :root {
-    font-family: "texgyreheroscn";
-    box-sizing: border-box;
-    text-decoration: none;
-    padding: 0px;
-    margin: 0px;
-    font-size: 16px;
-    color: var(--black);
-    --padding: var(--baseFont);
-    --halfPadding: calc(0.5 * var(--padding));
-    --quatPadding: calc(0.25 * var(--padding));
-    --largePadding: calc(2 * var(--padding));
-    --extraLargePadding: calc(3 * var(--padding));
-    --extraextraLargePadding: calc(4 * var(--padding));
-    --radius: var(--padding);
-    --white: #fffcf4;
-    --black: #232121;
-    --orange: #f97a32;
-    --green: #3fff53;
-    --red: #f93232;
-    --font-size-xsm: clamp(0.56rem, 0.18vw + 0.52rem, 0.74rem);
-    --font-size-sm: clamp(0.7rem, 0.26vw + 0.63rem, 0.96rem);
-    --font-size-base: clamp(0.88rem, 0.38vw + 0.78rem, 1.25rem);
-    --font-size-md: clamp(1.09rem, 0.53vw + 0.96rem, 1.63rem);
-    --font-size-lg: clamp(1.37rem, 0.75vw + 1.18rem, 2.11rem);
-    --font-size-xl: clamp(1.71rem, 1.04vw + 1.45rem, 2.75rem);
-    --font-size-xxl: clamp(2.14rem, 1.43vw + 1.78rem, 3.57rem);
-    --font-size-xxxl: clamp(2.67rem, 1.97vw + 2.18rem, 4.64rem);
-    --baseFont: var(--font-size-base);
-    --majorBorder: solid calc(0.4 * var(--extraSmallFont)) var(--black);
-    --minorBorder: solid calc(0.2 * var(--extraSmallFont)) var(--black);
-    --max-width: 600px;
+	font-family: 'texgyreheroscn';
+	box-sizing: border-box;
+	text-decoration: none;
+	padding: 0px;
+	margin: 0px;
+	font-size: 16px;
+	color: var(--black);
+	--padding: var(--baseFont);
+	--halfPadding: calc(0.5 * var(--padding));
+	--quatPadding: calc(0.25 * var(--padding));
+	--largePadding: calc(2 * var(--padding));
+	--extraLargePadding: calc(3 * var(--padding));
+	--extraextraLargePadding: calc(4 * var(--padding));
+	--radius: var(--padding);
+	--white: #efedde;
+	--black: #1e1e1e;
+	--darkBack: var(--black);
+	--background: var(--white);
+
+	--orange: #f97a32;
+	--green: #3fff53;
+	--red: #f93232;
+	--font-size-xsm: clamp(0.56rem, 0.18vw + 0.52rem, 0.74rem);
+	--font-size-sm: clamp(0.7rem, 0.26vw + 0.63rem, 0.96rem);
+	--font-size-base: clamp(0.88rem, 0.38vw + 0.78rem, 1.25rem);
+	--font-size-md: clamp(1.09rem, 0.53vw + 0.96rem, 1.63rem);
+	--font-size-lg: clamp(1.37rem, 0.75vw + 1.18rem, 2.11rem);
+	--font-size-xl: clamp(1.71rem, 1.04vw + 1.45rem, 2.75rem);
+	--font-size-xxl: clamp(2.14rem, 1.43vw + 1.78rem, 3.57rem);
+	--font-size-xxxl: clamp(2.67rem, 1.97vw + 2.18rem, 4.64rem);
+	--baseFont: var(--font-size-base);
+	--majorBorder: solid calc(0.4 * var(--extraSmallFont)) var(--black);
+	--minorBorder: solid calc(0.2 * var(--extraSmallFont)) var(--black);
+	--max-width: 600px;
+
+	--shadowOne: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+	--shadowTwo: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
+
+/* eb-garamond-800 - latin */
+@font-face {
+	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-family: 'EB Garamond';
+	font-style: normal;
+	font-weight: 800;
+	src: url('fonts/eb-garamond-v27-latin-800.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* karla-regular - latin */
+@font-face {
+	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-family: 'Karla';
+	font-style: normal;
+	font-weight: 400;
+	src: url('fonts/karla-v31-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* karla-italic - latin */
+@font-face {
+	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+	font-family: 'Karla';
+	font-style: italic;
+	font-weight: 400;
+	src: url('fonts/karla-v31-latin-italic.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 html,
 body {
-    margin: 0px;
-    padding: 0px;
-    font-size: var(--baseFont);
-    background-color: var(--bgColour);
-    max-width: 100dvw;
-    max-height: 100dvh;
-    overflow: hidden;
-    color: var(--txtColour);
-    box-sizing: border-box;
+	margin: 0px;
+	padding: 0px;
+	font-size: var(--baseFont);
+	background-color: var(--bgColour);
+	max-width: 100dvw;
+	// max-height: 100dvh;
+	overflow: hidden;
+	color: var(--txtColour);
+	box-sizing: border-box;
+	background-color: var(--darkBack);
+	font-family: 'Karla';
+}
+body::after {
+	animation: grain 6s steps(10) infinite;
+	background-image: url(62f64d5233f6333080c87c81a9a35f9d.png);
+	background-repeat: repeat;
+	content: '';
+	height: 300%;
+	left: -100%;
+	opacity: 0.06;
+	pointer-events: none;
+	position: fixed;
+	top: -100%;
+	transition: opacity 0.4s ease;
+	width: 300%;
+	will-change: transform;
+	z-index: 3;
+	-webkit-animation: grain 6s steps(10) infinite;
+}
+@keyframes grain {
+	0% {
+		transform: translate(20%, -15%);
+	}
+	10% {
+		transform: translate(-20%, -15%);
+	}
+	20% {
+		transform: translate(20%, -5%);
+	}
+	30% {
+		transform: translate(-20%, -5%);
+	}
+	40% {
+		transform: translate(20%, 5%);
+	}
+	50% {
+		transform: translate(-20%, 5%);
+	}
+	60% {
+		transform: translate(20%, 15%);
+	}
+	70% {
+		transform: translate(-20%, 15%);
+	}
+	80% {
+		transform: translate(20%, 5%);
+	}
+	90% {
+		transform: translate(-20%, 5%);
+	}
+	100% {
+		transform: translate(20%, -5%);
+	}
+}
+
+* {
+	margin: 0;
+	padding: 0;
 }
 
 *::-webkit-scrollbar {
-    width: var(--quatPadding);
+	width: var(--quatPadding);
+	display: none;
 }
 * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--txtColour) var(--bgColour);
+	scrollbar-width: none;
+	scrollbar-color: var(--txtColour) var(--bgColour);
 }
 *::-webkit-scrollbar-track {
-    background: var(--bgColour);
+	background: var(--bgColour);
 }
 *::-webkit-scrollbar-thumb {
-    background-color: var(--txtColour);
-    border-radius: 6px;
-    border: 1px solid var(--bgColour);
+	background-color: var(--txtColour);
+	border-radius: 6px;
+	border: 1px solid var(--bgColour);
+}
+
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+
+.lenis.lenis-smooth {
+	scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+	overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+	overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+	pointer-events: none;
+}
+
+.imageWrapper.fullscreen {
+	position: fixed;
+	top: 0;
+	left: 0;
+	// background-color: var(--background);
+	padding: var(--largePadding) !important;
+
+	z-index: 2;
+
+	&.offset {
+		margin-top: 0% !important;
+	}
+
+
+	.promptArea {
+		display: flex !important;
+        height: 100% ;
+        max-height: 100% !important;
+        flex: 1 !important;
+	}
+}
+
+.buttonBox {
+	position: fixed;
+	bottom: var(--padding);
+	left: 50%;
+	transform: translate(-50%, 0);
+	z-index: 20;
+}
+
+button.textButton {
+	background-color: var(--darkBack);
+	box-shadow: var(--shadowOne);
+	color: var(--white);
+	border: none;
+	font-size: var(----font-size-base);
+	border-radius: var(--largePadding);
+	-webkit-border-radius: var(--largePadding);
+	-moz-border-radius: var(--largePadding);
+	-ms-border-radius: var(--largePadding);
+	-o-border-radius: var(--largePadding);
+	padding: var(--halfPadding) var(--padding);
+	font-family: 'Karla';
+
+	&.small {
+		font-size: var(--font-size-sm);
+		padding: var(--quatPadding) var(--halfPadding);
+	}
+
+	&.invert {
+		color: var(--black);
+		background-color: var(--background);
+	}
 }
