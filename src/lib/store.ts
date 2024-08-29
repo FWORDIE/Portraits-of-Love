@@ -5,6 +5,6 @@ export const bigItem = writable(false);
 
 export const backgroundGallery = writable(true);
 
-export const state = writable<stateType>('gallery')
+export const state = writable<stateType>('home');
 
-export const moving = writable(false)
+export const moving = writable(false);

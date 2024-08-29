@@ -18,6 +18,8 @@
 
 	let lenis: Lenis;
 
+	let lastDirection = -1;
+
 	// let lastPos: number | boolean = null;
 
 	onMount(() => {
@@ -30,6 +32,11 @@
 
 		lenis.on('scroll', (e) => {
 			scrollDirection = e.direction;
+			if (scrollDirection == 0) {
+				scrollDirection == lastDirection;
+				return;
+			}
+			lastDirection == scrollDirection;
 		});
 
 		//@ts-ignore

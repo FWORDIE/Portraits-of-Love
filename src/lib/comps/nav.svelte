@@ -8,7 +8,7 @@
 	};
 </script>
 
-<!-- {#if !$bigItem}
+{#if !$bigItem}
 	<nav transition:fade={{ duration: 100 }}>
 		{#if $state != 'home'}
 			<button class="textButton small" on:click={() => changeState('home')}> Home </button>
@@ -20,7 +20,7 @@
 			<button class="textButton small" on:click={() => changeState('about')}> About </button>
 		{/if}
 	</nav>
-{/if} -->
+{/if}
 
 <style lang="scss">
 	nav {
