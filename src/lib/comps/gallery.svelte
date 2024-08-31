@@ -7,7 +7,7 @@
 	import { bigItem, backgroundGallery, state, moving } from '$lib/store';
 	import type { GalleryImage } from '$lib/types';
 	import { fade } from 'svelte/transition';
-
+    export let copy;
 	export let images: GalleryImage[];
 
 	let scrollDirection = -1;
@@ -46,10 +46,8 @@
 			lenis.raf(time * 1000);
 			let shouldScroll = lenis.velocity < 2.01 && lenis.velocity > -2.01 && !$moving && !$bigItem;
 			if (shouldScroll) {
+				lenis.start();
 				let position = lenis.animatedScroll;
-				if (position == 0) {
-					console.log(position);
-				}
 				if (scrollDirection == 0) {
 					scrollDirection = -1;
 				}
@@ -61,6 +59,7 @@
 					force: true
 				});
 			} else if ($bigItem) {
+				lenis.stop();
 			}
 		});
 
@@ -78,12 +77,12 @@
 	$: adjustBackground($state);
 </script>
 
-<div class="wrapper">
+<div class="wrapper" transition:fade={{ duration: 300 }}>
 	{#each { length: 2 } as _, i}
 		<div class="grid" bind:this={grid} class:clone={i == 1} class:background={$backgroundGallery}>
 			{#each images as image, i}
 				<div class="grid__item">
-					<Img {image} offset={(i + 2) % 3 == 0}></Img>
+					<Img {copy} {image} offset={(i + 2) % 3 == 0} toggleButton={image.image ? 'none':'info'}></Img>
 				</div>
 			{/each}
 		</div>
@@ -106,26 +105,7 @@
 		flex-direction: column;
 		background-color: var(--background);
 
-		.overlay {
-			transition: all 500ms ease;
-			background-color: var(--darkBack);
-			position: fixed;
-			height: 100%;
-			width: 100%;
-			z-index: 1;
-			pointer-events: none;
-			opacity: 0;
 
-			&.visable.light {
-				background-color: var(--background);
-				opacity: 0.95;
-			}
-
-			&.visable.dark {
-				background-color: var(--darkBack);
-				opacity: 0.5;
-			}
-		}
 	}
 	.clone {
 		max-height: calc(100dvh - 2 * var(--halfPadding));

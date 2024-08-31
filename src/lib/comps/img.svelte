@@ -1,19 +1,28 @@
 <script lang="ts">
 	import { delay, getRandomArbitrary } from '$lib/funcs';
 	import { bigItem, moving } from '$lib/store';
-	import type { GalleryImage } from '$lib/types';
+	import type { DatoData, GalleryImage } from '$lib/types';
 	import gsap from 'gsap';
 	import Flip from 'gsap/dist/Flip';
 	import { onMount, tick } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
+	import ButtonBox from './buttonBox.svelte';
+	import ScreenWrapper from './screenWrapper.svelte';
+	import CopyBox from './copyBox.svelte';
 	export let image: GalleryImage;
+	export let offset: boolean = false;
+	export let showPrompt = true;
+	export let toggleButton:string;
+	export let disable = false;
+
+	export let copy: DatoData;
+
 	let imgElem: HTMLElement;
 	let buttonElem: HTMLElement;
 	let imageArea: HTMLElement;
 	let promptArea: HTMLElement;
-	export let offset: boolean;
-	export let showPrompt = true;
 
+	let toggled = false;
 	let state: any;
 
 	let fullscreen = false;
@@ -26,17 +35,22 @@
 	let y = getRandomArbitrary(-10, 10);
 	let x = getRandomArbitrary(-10, 10);
 
-	const makeBigger = async () => {
+	const makeBigger = async (overRide: boolean = false) => {
+		if (disable && !overRide) {
+			return;
+		}
 		state = Flip.getState([imageArea, buttonElem]);
 		await tick();
 
 		if (!buttonElem.classList.contains('fullscreen')) {
 			$bigItem = true;
 			fullscreen = true;
+			// disable = true;
 		} else {
 			$bigItem = false;
 			fullscreen = false;
-			await delay(200);
+			toggled = false;
+			await delay(150);
 		}
 		buttonElem.classList.toggle('fullscreen');
 
@@ -44,8 +58,8 @@
 			duration: 0.3,
 			ease: 'power1.inOut',
 			absolute: true,
-			zIndex: 30,
-			props: 'opacity',
+			zIndex: 10,
+			props: 'opacity, backgroundColor',
 			onStart: function () {
 				$moving = true;
 			},
@@ -53,24 +67,55 @@
 				$moving = false;
 			}
 		});
-
-		// $bigItem = false;
-		// fullscreen = false;
-
-		// $bigItem = !$bigItem;
 	};
 </script>
 
-<button class="imageWrapper" on:click={() => makeBigger()} bind:this={buttonElem} class:offset>
+<button
+	class="imageWrapper"
+	on:click={() => makeBigger()}
+	bind:this={buttonElem}
+	class:offset
+	disabled={fullscreen}
+>
 	<div class="imageArea" bind:this={imageArea}>
 		{#if image.image}
 			<img class="imgLike" bind:this={imgElem} src={image.image} alt="" />
 		{:else}
 			<div class="imgLike noImg">
 				{#if fullscreen}
-					<h1 transition:fade={{ duration: 150, delay: 300 }}>No Image</h1>
+					<h1 in:fade={{ duration: 150, delay: 300 }} out:fade={{ duration: 150 }}>No Image</h1>
 				{/if}
 			</div>
+		{/if}
+		{#if fullscreen && toggleButton}
+			{#if !toggled && toggleButton != 'none'}
+				<button
+					class="textButton small invert onImage"
+					on:click={() => (toggled = true)}
+					in:fade|global={{ duration: 300, delay: 300 }}
+					out:fade|global={{ duration: 300 }}
+				>
+					{toggleButton == 'info' ? 'More info' : 'Show prompt'}
+				</button>
+			{:else if toggleButton != 'none'}
+				<button
+					on:click={() => (toggled = false)}
+					class="textButton small invert onImage"
+					in:fade|global={{ duration: 300, delay: 300 }}
+					out:fade|global={{ duration: 300 }}
+				>
+					{toggleButton == 'info' ? 'Back' : 'Show image'}
+				</button>
+				<div
+					class="toggledState"
+					in:fade|global={{ duration: 300, delay: 300 }}
+					out:fade|global={{ duration: 200 }}
+				>
+					<CopyBox>
+						{@html copy.siteCopy.noImageText}
+					</CopyBox>
+				</div>
+			{/if}
 		{/if}
 	</div>
 	{#if showPrompt && fullscreen}
@@ -88,13 +133,9 @@
 </button>
 
 {#if fullscreen}
-	<div
-		class="buttonBox"
-		in:fly={{ duration: 300, opacity: 0, y: 100 }}
-		out:fly={{ duration: 300, opacity: 0, y: 50, delay:150 }}
-	>
-		<button class="textButton" on:click={() => makeBigger()}>Close</button>
-	</div>
+	<ButtonBox delayOut={200}>
+		<button class="textButton" on:click={() => makeBigger(true)}>Close</button>
+	</ButtonBox>
 {/if}
 
 <style lang="scss">
@@ -112,6 +153,7 @@
 		justify-content: center;
 		align-items: space-between;
 		text-decoration: none;
+		cursor: pointer;
 		// transition: all 300ms;
 		&.offset {
 			margin-top: -50%;
@@ -125,11 +167,18 @@
 			align-items: center;
 			width: 100%;
 			box-sizing: border-box;
+			position: relative;
+
+			&:only-child {
+				justify-content: center;
+			}
 			.imgLike {
 				border-radius: var(--quatPadding);
 				box-shadow: var(--shadowOne);
 				width: 100%;
 				transition: all 300ms;
+				position: relative;
+
 				&.noImg {
 					background-color: var(--black);
 					width: 100%;
@@ -165,13 +214,37 @@
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
-			overflow: hidden;
+			overflow: scroll;
+			gap: var(--quatPadding);
 			p {
 				text-decoration: none;
 				color: var(--black);
 				text-align: center;
 				margin: 0px;
 			}
+		}
+
+		.onImage {
+			position: absolute;
+			left: var(--padding);
+			bottom: var(--padding);
+			z-index: 20;
+			cursor: pointer;
+		}
+
+		.toggledState {
+			padding-top: var(--largePadding);
+			color: var(--white);
+			position: absolute;
+			left: 0px;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 19;
+			background-color: var(--darkBack);
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 </style>

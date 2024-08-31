@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@datocms/cda-client':
+    specifier: ^0.2.2
+    version: 0.2.2
   '@fal-ai/serverless-client':
     specifier: ^0.14.2
     version: 0.14.2
@@ -79,6 +82,15 @@ devDependencies:
 
 packages:
 
+  /@0no-co/graphql.web@1.0.8:
+    resolution: {integrity: sha512-8BG6woLtDMvXB9Ajb/uE+Zr/U7y4qJ3upXi0JQHZmsKUJa7HjF/gFvmL2f3/mSmfZoQGRr9VoY97LCX2uaFMzA==}
+    peerDependencies:
+      graphql: ^14.0.0 || ^15.0.0 || ^16.0.0
+    peerDependenciesMeta:
+      graphql:
+        optional: true
+    dev: false
+
   /@adobe/css-tools@4.3.3:
     resolution: {integrity: sha512-rE0Pygv0sEZ4vBWHlAgJLGDU7Pm8xoO6p3wsEceb7GYAjScrOHpEo8KK/eVkAcnSM+slAEtXjA2JpdjLp4fJQQ==}
     dev: false
@@ -100,6 +112,14 @@ packages:
 
   /@darkroom.engineering/tempus@0.0.46:
     resolution: {integrity: sha512-s5vav3KMHYezvUCl4ee5epg0oimF6M8C9gAaKxFnFaTvX2q3ywFDryIv6XLd0mRFUt3S1uHDJqKaiEcs2ZVSvw==}
+    dev: false
+
+  /@datocms/cda-client@0.2.2:
+    resolution: {integrity: sha512-Qnyc8OR2EoWiQx7NhOFUKmNBw/xh73AkREq70h0vFZlSR1T115qBzmE66T/HLVOJNM+kBQ7zXwVtFijzT2ThKQ==}
+    dependencies:
+      '@0no-co/graphql.web': 1.0.8
+    transitivePeerDependencies:
+      - graphql
     dev: false
 
   /@esbuild/aix-ppc64@0.21.5:

@@ -72,11 +72,11 @@ body {
 	font-size: var(--baseFont);
 	background-color: var(--bgColour);
 	max-width: 100dvw;
-	// max-height: 100dvh;
+	max-height: 100dvh;
 	overflow: hidden;
 	color: var(--txtColour);
 	box-sizing: border-box;
-	background-color: var(--darkBack);
+	background-color: var(--background);
 	font-family: 'Karla';
 }
 body::after {
@@ -144,6 +144,7 @@ body::after {
 * {
 	scrollbar-width: none;
 	scrollbar-color: var(--txtColour) var(--bgColour);
+	box-sizing: border-box;
 }
 *::-webkit-scrollbar-track {
 	background: var(--bgColour);
@@ -179,7 +180,8 @@ html.lenis body {
 	position: fixed;
 	top: 0;
 	left: 0;
-	// background-color: var(--background);
+    
+	// background-color: var(--background) !important;
 	padding: var(--largePadding) !important;
 
 	z-index: 2;
@@ -188,21 +190,44 @@ html.lenis body {
 		margin-top: 0% !important;
 	}
 
+	.imageArea {
+		.imgLike {
+			box-shadow: var(--shadowTwo) !important;
+			border-radius: var(--halfPadding) !important;
+			-webkit-border-radius: var(--halfPadding) !important;
+			-moz-border-radius: var(--halfPadding) !important;
+			-ms-border-radius: var(--halfPadding) !important;
+			-o-border-radius: var(--halfPadding) !important;
+		}
+	}
 
 	.promptArea {
 		display: flex !important;
-        height: 100% ;
-        max-height: 100% !important;
-        flex: 1 !important;
+		height: 100%;
+		max-height: 100% !important;
+		flex: 1 !important;
 	}
 }
 
-.buttonBox {
+.overlay {
+	transition: all 500ms ease;
+	background-color: var(--darkBack);
 	position: fixed;
-	bottom: var(--padding);
-	left: 50%;
-	transform: translate(-50%, 0);
-	z-index: 20;
+	height: 100%;
+	width: 100%;
+	z-index: 1;
+	pointer-events: none;
+	opacity: 0;
+
+	&.visable.light {
+		background-color: var(--background);
+		opacity: 0.95;
+	}
+
+	&.visable.dark {
+		background-color: var(--darkBack);
+		opacity: 0.5;
+	}
 }
 
 button.textButton {

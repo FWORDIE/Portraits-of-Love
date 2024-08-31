@@ -10,7 +10,8 @@ export type ImageType = {
 	file_size: number;
 	palette?: Palette;
 	colour?: string;
-    prompt:string;
+    chosen?: boolean;
+	prompt: string;
 };
 
 export type ImageWPal = {
@@ -20,30 +21,76 @@ export type ImageWPal = {
 };
 
 export type userData = {
-    id?:string;
-    stages:stage[];
-    finalImg:miniImage | undefined;
-}
+	id?: string;
+	stages: stage[];
+    note?:string
+	finalImg: ImageType | undefined | null;
+};
 
 export type miniImage = {
-    id?:string;
-    url:string;
-    colour:string;
-    chosen:boolean;
-}
+	id?: string;
+	url: string;
+	colour: string;
+	chosen: boolean;
+};
 
 export type stage = {
-    id?:string;
-    fact:string | null;
-    incitement:string;
-    prompt:string;
-    images:miniImage[];
-}
+	id?: string;
+	fact: string | null;
+	incitement: string;
+	prompt: string;
+	images: ImageType[];
+};
 
 export type GalleryImage = {
-    image:string | undefined;
-    date:string;
-    prompt:string[]
+	image: string | undefined;
+	date?: string;
+	prompt: string[];
+};
+
+export type stateType = 'home' | 'gallery' | 'about' | 'game';
+
+export interface DatoData {
+	allFacts: AllFact[];
+	siteCopy: SiteCopy;
 }
 
-export type stateType = 'home' | 'gallery' | 'about' | 'game'
+export interface AllFact {
+	fact: string;
+}
+
+export interface SiteCopy {
+	endText: string;
+	anotherButtonText: string;
+	errotText: string;
+	aboutText: string;
+	galleryButtonText: string;
+	generationNoButton: string;
+	generationYesButton: string;
+	generatonText: string;
+	incitementA: string;
+	incitementAlwaysText: string;
+	incitementB: string;
+	incitementButton: string;
+	incitementC: string;
+	introButton: string;
+	introText: string;
+	noteText: string;
+	preFactText: string;
+	refineButtonText: string;
+	refineText: string;
+	selectButtonText: string;
+	selectText: string;
+	sendButtonText: string;
+	sendText: string;
+	shareItButtonText: string;
+	startButtonText: string;
+	subtitleText: string;
+	termsNoButtonText: string;
+	termsText: string;
+	termsYesButtonText: string;
+	title: string;
+    restartText:string;
+    restartButtonText:string;
+    noImageText:string;
+}
