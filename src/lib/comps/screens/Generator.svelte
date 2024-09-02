@@ -68,7 +68,7 @@
 					new URLSearchParams({
 						prompt: getPrompt(prompt),
 						model: 'schnell',
-						number: '2',
+						number: '4',
 						image: getImage()
 					}).toString()
 			)

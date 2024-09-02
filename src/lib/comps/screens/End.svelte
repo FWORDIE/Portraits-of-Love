@@ -16,7 +16,7 @@
 		};
 		$gameData = $gameData;
 		if (gotoGallery) {
-			$state = 'gallery';
+			$state = 'home';
 		} else {
 			$state = 'home';
 		}
