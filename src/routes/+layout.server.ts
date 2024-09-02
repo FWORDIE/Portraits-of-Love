@@ -41,6 +41,7 @@ query all {
     restartText(markdown: true)
     restartButtonText
     noImageText(markdown: true)
+    promptNoteText(markdown: true)
   }
 }`;
 
@@ -51,7 +52,5 @@ export const load = async ({ fetch }) => {
 	const images: GalleryImage[] = await response.json();
 
 	const copy = await performRequest(query);
-	console.log(copy);
-	console.log(images.length);
 	return { images: images, copy: copy };
 };

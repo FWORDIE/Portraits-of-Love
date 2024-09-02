@@ -24,7 +24,7 @@ export type userData = {
 	id?: string;
 	stages: stage[];
     note?:string
-	finalImg: ImageType | undefined | null;
+	finalImg: ImageType | undefined | false;
 };
 
 export type miniImage = {
@@ -93,4 +93,5 @@ export interface SiteCopy {
     restartText:string;
     restartButtonText:string;
     noImageText:string;
+    promptNoteText:string;
 }

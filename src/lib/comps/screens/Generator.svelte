@@ -14,7 +14,7 @@
 		if ($stageNumber == 0) {
 			return copy.siteCopy.incitementA;
 		} else if ($stageNumber == 1) {
-			return randomIntFromInterval(-2, 2 ) > 0
+			return randomIntFromInterval(-2, 2) > 0
 				? copy.siteCopy.incitementC
 				: copy.siteCopy.incitementB;
 		} else {
@@ -31,14 +31,45 @@
 	const genImg = async (prompt: string) => {
 		let generatedImages: any[] = [];
 
+		const getImage = () => {
+			let image;
+			if ($gameData.stages[$stageNumber - 1]) {
+				image =
+					$gameData.stages[$stageNumber - 1].images.find((image) => image.chosen) || undefined;
+			}
+			if (image) {
+				return image.url;
+			}
+			return '';
+		};
+
+		const getPrompt = (prompt: string) => {
+			let returnPrompt = '';
+
+			for (let i = 0; i < $gameData.stages.length; i++) {
+				if (
+					$gameData.stages[i] &&
+					$gameData.stages[i].images.length > 0 &&
+					$gameData.stages[i].images.some((image) => image.chosen)
+				) {
+					returnPrompt += $gameData.stages[i].prompt;
+					returnPrompt += ', ';
+				}
+			}
+
+			returnPrompt += prompt;
+			return returnPrompt;
+		};
+
 		if (prompt) {
 			loading = true;
 			await fetch(
 				'/api/imageGen?' +
 					new URLSearchParams({
-						prompt,
+						prompt: getPrompt(prompt),
 						model: 'schnell',
-						number: '4'
+						number: '2',
+						image: getImage()
 					}).toString()
 			)
 				.then((response) => {
@@ -74,33 +105,33 @@
 					fact: null
 				}
 			];
-            $gameData.stages[$stageNumber].images = await genImg(text);
+			$gameData.stages[$stageNumber].images = await genImg(text);
 		}
 	};
 </script>
 
-{#if !loading}
-	<ScreenWrapper>
-		<CopyBox>
-			{@html copy.siteCopy.incitementAlwaysText}
-			{@html incitement}
-		</CopyBox>
-		<CopyBox>
-			<InputBox bind:text></InputBox>
-		</CopyBox>
-	</ScreenWrapper>
-	{#if text.length > 0}
-		<ButtonBox>
-			<button class="textButton" on:click={generate}>
-				{copy.siteCopy.incitementButton}
-			</button>
-		</ButtonBox>
+	{#if !loading}
+		<ScreenWrapper>
+			<CopyBox>
+				{@html copy.siteCopy.incitementAlwaysText}
+				{@html incitement}
+			</CopyBox>
+			<CopyBox>
+				<InputBox bind:text></InputBox>
+			</CopyBox>
+		</ScreenWrapper>
+		{#if text.length > 0}
+			<ButtonBox>
+				<button class="textButton" on:click={generate}>
+					{copy.siteCopy.incitementButton}
+				</button>
+			</ButtonBox>
+		{/if}
+	{:else}
+		<ScreenWrapper>
+			<Loading {copy}></Loading>
+		</ScreenWrapper>
 	{/if}
-{:else}
-	<ScreenWrapper>
-		<Loading {copy}></Loading>
-	</ScreenWrapper>
-{/if}
 
 <style lang="scss">
 </style>

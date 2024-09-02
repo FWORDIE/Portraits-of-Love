@@ -1,26 +1,32 @@
 <script lang="ts">
-	import { stageNumber } from '$lib/store';
+	import { stageNumber, gameData } from '$lib/store';
 	import type { DatoData } from '$lib/types';
 	import { fade } from 'svelte/transition';
 
 	import Intro from './screens/intro.svelte';
 	import MainLoop from './screens/mainLoop.svelte';
+	import Generator from './screens/Generator.svelte';
+	import ImagePicker from './screens/ImagePicker.svelte';
+	import ConfirmScreen from './screens/ConfirmScreen.svelte';
 
 	export let copy: DatoData;
-
-	const forward = () => ($stageNumber = $stageNumber + 1);
 </script>
 
 <div class="gameWrapper" transition:fade={{ duration: 300 }}>
 	{#if $stageNumber < 0}
 		<Intro {copy}></Intro>
 	{:else if $stageNumber >= 0}
-		<MainLoop {copy}></MainLoop>
+		{#if !$gameData.stages[$stageNumber] || $gameData.stages[$stageNumber].images.length < 1}
+			<Generator {copy}></Generator>
+		{:else if $gameData.stages[$stageNumber].images.length > 1}
+			{#if !$gameData.stages[$stageNumber].images.some((image) => image.chosen) && $gameData.finalImg != false}
+				<ImagePicker {copy}></ImagePicker>
+			{:else}
+				<ConfirmScreen {copy}></ConfirmScreen>
+			{/if}
+		{/if}
 	{/if}
-
-
 </div>
-
 
 <style lang="scss">
 	.gameWrapper {

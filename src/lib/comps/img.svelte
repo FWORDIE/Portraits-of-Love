@@ -82,13 +82,13 @@
 			<img class="imgLike" bind:this={imgElem} src={image.image} alt="" />
 		{:else}
 			<div class="imgLike noImg">
-				{#if fullscreen}
+				{#if fullscreen || toggleButton == 'prompt'}
 					<h1 in:fade={{ duration: 150, delay: 300 }} out:fade={{ duration: 150 }}>No Image</h1>
 				{/if}
 			</div>
 		{/if}
-		{#if fullscreen && toggleButton}
-			{#if !toggled && toggleButton != 'none'}
+		{#if (fullscreen && toggleButton == 'info') || toggleButton == 'prompt'}
+			{#if !toggled }
 				<button
 					class="textButton small invert onImage"
 					on:click={() => (toggled = true)}
@@ -97,7 +97,7 @@
 				>
 					{toggleButton == 'info' ? 'More info' : 'Show prompt'}
 				</button>
-			{:else if toggleButton != 'none'}
+			{:else }
 				<button
 					on:click={() => (toggled = false)}
 					class="textButton small invert onImage"
@@ -112,7 +112,7 @@
 					out:fade|global={{ duration: 200 }}
 				>
 					<CopyBox>
-						{@html copy.siteCopy.noImageText}
+						{@html toggleButton == 'info' ? copy.siteCopy.noImageText : image.prompt}
 					</CopyBox>
 				</div>
 			{/if}

@@ -1,0 +1,34 @@
+<script lang="ts">
+	import CopyBox from '../copyBox.svelte';
+	import ScreenWrapper from '../screenWrapper.svelte';
+	import { stageNumber, gameData, state } from '$lib/store';
+	import ButtonBox from '../buttonBox.svelte';
+	import type { DatoData } from '$lib/types';
+	import InputBox from '../inputBox.svelte';
+	export let copy: DatoData;
+
+	let note = '';
+	const addNote = () => {
+		if (note.length > 0) {
+			$gameData.note = note;
+			$gameData = $gameData;
+		}
+	};
+</script>
+
+<ScreenWrapper>
+	<CopyBox>
+		{@html $gameData.finalImg == false ? copy.siteCopy.promptNoteText : copy.siteCopy.noteText}
+		<InputBox bind:text={note}></InputBox>
+	</CopyBox>
+</ScreenWrapper>
+{#if note.length > 0}
+	<ButtonBox>
+		<button class="textButton" on:click={() => addNote()}>
+			{@html copy.siteCopy.shareItButtonText}
+		</button>
+	</ButtonBox>
+{/if}
+
+<style lang="scss">
+</style>

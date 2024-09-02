@@ -21,7 +21,7 @@ export async function GET({ url }: { url: URL }) {
 	const model = newUrl.searchParams.get('model') || 'schnell';
 	const number = parseInt(newUrl.searchParams.get('number') || '1');
 	const image = newUrl.searchParams.get('image') || null;
-    if(test){
+    if(test && !image){
         return json([
             {
               "url": "https://fal.media/files/koala/y5TgdzkApAt3a57kdENlN.png",
@@ -106,6 +106,7 @@ const genImg = async (
 
 		if (image) {
 			input.image_url = image;
+            model = 'dev/image-to-image'
 		}
 
 		if (model != 'schnell') {

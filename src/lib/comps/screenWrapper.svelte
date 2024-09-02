@@ -8,7 +8,6 @@
 	let hidden = true;
 
 	onMount(async () => {
-        console.log('munted')
 		await delay(300);
         // await tick()
 		hidden = false;
@@ -21,11 +20,9 @@
 	// })
 </script>
 
-{#key 'help'}
-	<div class="wrapper" in:fade|global={{ duration: 300, delay: 300 }}  out:fade|global={{ duration: 300 }}  class:hidden>
+	<div class="wrapper" class:hidden>
 		<slot></slot>
 	</div>
-{/key}
 
 <style lang="scss">
 	.wrapper {

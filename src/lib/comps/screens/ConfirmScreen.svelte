@@ -7,131 +7,33 @@
 	import Img from '../img.svelte';
 	import InputBox from '../inputBox.svelte';
 	import { goto } from '$app/navigation';
+	import { returnPromptArray } from '$lib/funcs';
+	import { tick } from 'svelte';
+	import End from './End.svelte';
+	import Send from './Send.svelte';
+	import Terms from './Terms.svelte';
+	import Note from './Note.svelte';
+	import Sharing from './Sharing.svelte';
+	import SingleImage from './SingleImage.svelte';
 	export let copy: DatoData;
 
-	let note = '';
+	let sharing = false;
 
-	let sharing = true;
-	let image = $gameData.stages[$stageNumber].images.find((image) => image.chosen) as ImageType;
-
-	const addNote = () => {
-		if (note.length > 0) {
-			$gameData.note = note;
-			$gameData = $gameData;
-		}
-	};
-
-	const terms = (upload: boolean) => {
-		//Add Upload function
-
-		$gameData.finalImg = image;
-		$gameData = $gameData;
-	};
-
-	let sent = false;
-
-	const send = () => {
-		//Add sending function
-		sent = true;
-	};
-
-	const end = (gotoGallery: boolean) => {
-		$stageNumber = -1;
-		//Add sending function
-		$gameData = {
-			stages: [],
-			finalImg: undefined,
-			note: undefined
-		};
-		$gameData = $gameData;
-		if (gotoGallery) {
-			$state = 'gallery';
-		}
-	};
+	let sent: boolean = false;
 </script>
 
-<ScreenWrapper>
-	<div class="imageContainer">
-		<Img
-			image={{ image: image ? image.url : undefined, prompt: [$gameData.stages[$stageNumber].prompt] }}
-			showPrompt={false}
-			disable={true}
-		></Img>
-	</div>
-</ScreenWrapper>
+<SingleImage {copy}></SingleImage>
 {#if !sharing}
-	<ScreenWrapper>
-		<CopyBox>
-			{@html copy.siteCopy.refineText}
-		</CopyBox>
-	</ScreenWrapper>
-	<ButtonBox>
-		<button class="textButton">
-			{@html copy.siteCopy.refineButtonText}
-			({$maxStages - ($stageNumber + 1)} trys left)
-		</button>
-		<button class="textButton" on:click={() => (sharing = true)}>
-			{@html copy.siteCopy.shareItButtonText}
-		</button>
-	</ButtonBox>
+	<Sharing {copy} bind:sharing></Sharing>
 {:else if !$gameData.note}
-	<ScreenWrapper>
-		<CopyBox>
-			{@html copy.siteCopy.noteText}
-			<InputBox bind:text={note}></InputBox>
-		</CopyBox>
-	</ScreenWrapper>
-	{#if note.length > 0}
-		<ButtonBox>
-			<button class="textButton" on:click={() => addNote()}>
-				{@html copy.siteCopy.shareItButtonText}
-			</button>
-		</ButtonBox>
-	{/if}
+	<Note {copy}></Note>
 {:else if !$gameData.finalImg}
-	<ScreenWrapper>
-		<CopyBox>
-			{@html copy.siteCopy.termsText}
-		</CopyBox>
-	</ScreenWrapper>
-	<ButtonBox>
-		<button class="textButton" on:click={() => terms(false)}>
-			{@html copy.siteCopy.termsNoButtonText}
-		</button>
-		<button class="textButton" on:click={() => terms(true)}>
-			{@html copy.siteCopy.termsYesButtonText}
-		</button>
-	</ButtonBox>
+	<Terms {copy}></Terms>
 {:else if !sent}
-	<ScreenWrapper>
-		<CopyBox>
-			{@html copy.siteCopy.sendText}
-		</CopyBox>
-	</ScreenWrapper>
-	<ButtonBox>
-		<button class="textButton" on:click={() => send()}>
-			{@html copy.siteCopy.sendButtonText}
-		</button>
-	</ButtonBox>
-{:else}
-	<ScreenWrapper>
-		<CopyBox>
-			{@html copy.siteCopy.endText}
-		</CopyBox>
-	</ScreenWrapper>
-	<ButtonBox>
-		<button class="textButton" on:click={() => end(false)}>
-			{@html copy.siteCopy.anotherButtonText}
-		</button>
-		<button class="textButton" on:click={() => end(true)}>
-			{@html copy.siteCopy.galleryButtonText}
-		</button>
-	</ButtonBox>
+	<Send bind:sent {copy}></Send>
+{:else if sent}
+	<End {copy}></End>
 {/if}
 
 <style lang="scss">
-	.imageContainer {
-		padding: var(--largePadding);
-		border-radius: var(--padding);
-	}
 </style>
