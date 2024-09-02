@@ -5,7 +5,7 @@ export const bigItem = writable(false);
 
 export const backgroundGallery = writable(true);
 
-export const state = writable<stateType>('game');
+export const state = writable<stateType>('home');
 
 export const moving = writable(false);
 
@@ -17,6 +17,6 @@ export const gameData = writable<userData>({
 
 export let stageNumber = writable(-1);
 
-export let maxStages = writable(2);
+export let maxStages = writable(3);
 
 
