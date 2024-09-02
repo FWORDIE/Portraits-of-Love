@@ -16,8 +16,10 @@
 
 <CopyBox>
 	{@html copy.siteCopy.preFactText}
-	{@html fact.fact}
+	<p>{@html fact.fact}</p>
 </CopyBox>
-
+<ButtonBox>
+    loading...
+</ButtonBox>
 <style lang="scss">
 </style>

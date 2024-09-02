@@ -12,7 +12,7 @@
 	export let copy: DatoData;
 </script>
 
-<div class="gameWrapper" transition:fade={{ duration: 300 }}>
+<div class="gameWrapper" transition:fade={{ duration: 1200 }}>
 	{#if $stageNumber < 0}
 		<Intro {copy}></Intro>
 	{:else if $stageNumber >= 0}
