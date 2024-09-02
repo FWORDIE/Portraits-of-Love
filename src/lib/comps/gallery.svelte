@@ -36,7 +36,7 @@
 				scrollDirection == lastDirection;
 				return;
 			}
-			lastDirection == scrollDirection;
+			lastDirection = scrollDirection;
 		});
 
 		//@ts-ignore
@@ -45,12 +45,10 @@
 		gsap.ticker.add((time) => {
 			lenis.raf(time * 1000);
 			let shouldScroll = lenis.velocity < 2.01 && lenis.velocity > -2.01 && !$moving && !$bigItem;
+            // console.log(scrollDirection)
 			if (shouldScroll) {
 				lenis.start();
-				let position = lenis.animatedScroll;
-				if (scrollDirection == 0) {
-					scrollDirection = -1;
-				}
+				let position = lenis.scroll;
 				lenis.scrollTo(speed * scrollDirection + position, {
 					duration: 0.001,
 					easing: (t) => 1 - Math.cos((t * Math.PI) / 2),
@@ -99,7 +97,7 @@
 
 <style lang="scss">
 	.wrapper {
-		overflow-x: hidden;
+		// overflow-x: hidden;
 		display: flex;
 		align-items: center;
 		flex-direction: column;

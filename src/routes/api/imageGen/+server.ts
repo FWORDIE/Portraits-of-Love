@@ -7,7 +7,7 @@ import Vibrant from 'node-vibrant';
 const textColour = { r: 14, g: 13, b: 13 };
 const ratioTarget = 0.22222;
 const imageSize = 'square';
-const test = true;
+const test = false;
 
 const extraPrompt =
 	'ametuer film photography, grain, disposable, candid, family, poliriod, nostalgic:';
@@ -21,49 +21,46 @@ export async function GET({ url }: { url: URL }) {
 	const model = newUrl.searchParams.get('model') || 'schnell';
 	const number = parseInt(newUrl.searchParams.get('number') || '1');
 	const image = newUrl.searchParams.get('image') || null;
-    if(test && !image){
-        return json([
-            {
-              "url": "https://fal.media/files/koala/y5TgdzkApAt3a57kdENlN.png",
-              "width": 512,
-              "height": 512,
-              "content_type": "image/jpeg",
-              "prompt": "turtles fuckin",
-              "colour": "#c96c48",
-              "chosen":false
-
-            },
-            {
-              "url": "https://fal.media/files/penguin/vH9NMaT5UT98MY3nG8DT3.png",
-              "width": 512,
-              "height": 512,
-              "content_type": "image/jpeg",
-              "prompt": "turtles fuckin",
-              "colour": "#d29810",
-              "chosen":false
-
-            },
-            {
-              "url": "https://fal.media/files/lion/MVMnQouYwQgJvWG4YRVg-.png",
-              "width": 512,
-              "height": 512,
-              "content_type": "image/jpeg",
-              "prompt": "turtles fuckin",
-              "colour": "#9fb152",
-              "chosen":false
-            },
-            {
-              "url": "https://fal.media/files/kangaroo/3mJ4-J3LXDMMXSnFxboHN.png",
-              "width": 512,
-              "height": 512,
-              "content_type": "image/jpeg",
-              "prompt": "turtles fuckin",
-              "colour": "#c7ae8a",
-              "chosen":false
-
-            }
-          ])
-    }
+	if (test && !image) {
+		return json([
+			{
+				url: 'https://fal.media/files/koala/y5TgdzkApAt3a57kdENlN.png',
+				width: 512,
+				height: 512,
+				content_type: 'image/jpeg',
+				prompt: 'turtles fuckin',
+				colour: '#c96c48',
+				chosen: false
+			},
+			{
+				url: 'https://fal.media/files/penguin/vH9NMaT5UT98MY3nG8DT3.png',
+				width: 512,
+				height: 512,
+				content_type: 'image/jpeg',
+				prompt: 'turtles fuckin',
+				colour: '#d29810',
+				chosen: false
+			},
+			{
+				url: 'https://fal.media/files/lion/MVMnQouYwQgJvWG4YRVg-.png',
+				width: 512,
+				height: 512,
+				content_type: 'image/jpeg',
+				prompt: 'turtles fuckin',
+				colour: '#9fb152',
+				chosen: false
+			},
+			{
+				url: 'https://fal.media/files/kangaroo/3mJ4-J3LXDMMXSnFxboHN.png',
+				width: 512,
+				height: 512,
+				content_type: 'image/jpeg',
+				prompt: 'turtles fuckin',
+				colour: '#c7ae8a',
+				chosen: false
+			}
+		]);
+	}
 	if (!prompt) {
 		return json({ error: 'No prompt dumbo' }, { status: 500 });
 	}
@@ -95,7 +92,7 @@ const genImg = async (
 	image: null | string = null
 ) => {
 	try {
-        console.log(extra, prompt, model, number, image)
+		console.log(extra, prompt, model, number, image);
 		let input: any = {
 			prompt: extra + prompt,
 			image_size: imageSize,
@@ -106,13 +103,12 @@ const genImg = async (
 
 		if (image) {
 			input.image_url = image;
-            model = 'dev/image-to-image'
+			model = 'dev/image-to-image';
 		}
 
 		if (model != 'schnell') {
-			input.guidance_scale = 1
-            input.num_inference_steps= 28
-
+			input.guidance_scale = 1;
+			input.num_inference_steps = 28;
 		}
 
 		const result: Result = await fal.subscribe(`fal-ai/flux/${model}`, {
@@ -127,7 +123,7 @@ const genImg = async (
 
 		result.images.map((image) => {
 			image.prompt = prompt;
-            image.chosen = false
+			image.chosen = false;
 			return image;
 		});
 
