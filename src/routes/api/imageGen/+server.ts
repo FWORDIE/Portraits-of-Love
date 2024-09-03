@@ -1,4 +1,5 @@
 import { FAL_KEY } from '$env/static/private';
+import { getRandomArbitrary } from '$lib/funcs';
 import type { ImageType, Result } from '$lib/types';
 import * as fal from '@fal-ai/serverless-client';
 import { error, json } from '@sveltejs/kit';
@@ -102,16 +103,18 @@ const genImg = async (
 			num_images: number
 		};
 
-		if (image) {
-			input.image_url = image;
-			model = 'dev/image-to-image';
-		}
+
 
 		if (model != 'schnell') {
 			input.guidance_scale = 1;
 			input.num_inference_steps = 28;
 		}
+		if (image) {
+			input.image_url = image;
+			model = 'dev/image-to-image';
+            input.guidance_scale = getRandomArbitrary(1,5);
 
+		}
 		const result: Result = await fal.subscribe(`fal-ai/flux/${model}`, {
 			input: input,
 			logs: true,
