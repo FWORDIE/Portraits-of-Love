@@ -1,4 +1,4 @@
-FROM node:19 as build-app
+FROM node:20 as build-app
 
 ARG BUILD_TIME
 ARG BUILD_VERSION
@@ -13,13 +13,13 @@ ARG POCKET_PASS=${POCKET_PASS}
 ARG DATO_KEY=${DATO_KEY}
 RUN npm run build
 
-FROM node:19-alpine as build-runtime
+FROM node:20-alpine as build-runtime
 
 WORKDIR /app
 COPY package.json ./
 RUN npm install 
 
-FROM node:19-alpine as final
+FROM node:20-alpine as final
 ENV NODE_ENV production
 
 WORKDIR /app
