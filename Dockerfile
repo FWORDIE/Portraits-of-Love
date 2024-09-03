@@ -29,3 +29,6 @@ COPY --from=build-runtime /app/node_modules ./node_modules
 
 EXPOSE 3000
 
+CMD ["node", "./build/index.js"]
+
+
