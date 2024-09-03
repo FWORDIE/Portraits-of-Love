@@ -65,6 +65,7 @@ export async function GET({ url }: { url: URL }) {
 		return json({ error: 'No prompt dumbo' }, { status: 500 });
 	}
 	try {
+        console.log('Genning')
 		let images: ImageType[] | any = await genImg(extraPrompt, prompt, model, number, image);
 		if (images[0]) {
 			images = await Promise.all(
@@ -115,9 +116,9 @@ const genImg = async (
 			input: input,
 			logs: true,
 			onQueueUpdate: (update) => {
-				if (update.status === 'IN_PROGRESS') {
-					update.logs.map((log) => log.message).forEach(console.log);
-				}
+				// if (update.status === 'IN_PROGRESS') {
+				// 	update.logs.map((log) => log.message).forEach(console.log);
+				// }
 			}
 		});
 
