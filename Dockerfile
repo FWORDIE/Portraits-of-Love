@@ -16,17 +16,9 @@ RUN npm run build
 FROM node:19-alpine as build-runtime
 
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN npm install 
-
-FROM node:19-alpine as final
-ENV NODE_ENV production
-
-WORKDIR /app
-COPY --from=build-app /app/build ./build
-COPY --from=build-runtime /app/package.json ./package.json
-COPY --from=build-runtime /app/node_modules ./node_modules
-
+COPY --from=builder /app/build build/
+COPY --from=builder /app/node_modules node_modules/
+COPY package.json .
 EXPOSE 3000
 
 CMD ["node", "./build/index.js"]
