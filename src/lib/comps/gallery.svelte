@@ -6,8 +6,8 @@
 	import { onMount } from 'svelte';
 	import { bigItem, backgroundGallery, state, moving } from '$lib/store';
 	import type { GalleryImage } from '$lib/types';
-	import { fade } from 'svelte/transition';
-    export let copy;
+	import { fade, scale } from 'svelte/transition';
+	export let copy;
 	export let images: GalleryImage[];
 
 	let scrollDirection = -1;
@@ -20,9 +20,49 @@
 
 	let lastDirection = -1;
 
+	export let loaded = false;
+
+	async function loadImages(imageUrlArray: GalleryImage[]) {
+		const promiseArray = []; // create an array for promises
+		const imageArray: HTMLImageElement[] = []; // array for the images
+
+		for (let imageUrl of imageUrlArray) {
+			if (imageUrl.image != undefined) {
+				promiseArray.push(
+					new Promise<void>((resolve) => {
+						const img = new Image();
+						// if you don't need to do anything when the image loads,
+						// then you can just write img.onload = resolve;
+
+						img.onload = function () {
+							// do stuff with the image if necessary
+
+							// resolve the promise, indicating that the image has been loaded
+							resolve();
+						};
+						if (imageUrl.image) {
+							img.src = imageUrl.image;
+						}
+						imageArray.push(img);
+					})
+				);
+			}
+		}
+
+		await Promise.all(promiseArray); // wait for all the images to be loaded
+		console.log('all images loaded');
+		return imageArray;
+	}
+
 	// let lastPos: number | boolean = null;
 
 	onMount(() => {
+		loadImages(images).then((images) => {
+			console.log('loaded');
+			loaded = true;
+			// the loaded images are in the images array
+		});
+
 		lenis = new Lenis({
 			infinite: true,
 			syncTouch: true,
@@ -33,7 +73,7 @@
 		lenis.on('scroll', (e) => {
 			scrollDirection = e.direction;
 			if (scrollDirection == 0) {
-				scrollDirection == lastDirection;
+				scrollDirection = lastDirection;
 				return;
 			}
 			lastDirection = scrollDirection;
@@ -44,7 +84,12 @@
 
 		gsap.ticker.add((time) => {
 			lenis.raf(time * 1000);
-			let shouldScroll = lenis.velocity < 2.01 && lenis.velocity > -2.01 && !$moving && !$bigItem;
+			let shouldScroll =
+				lenis.velocity < 2.01 &&
+				lenis.velocity > -2.01 &&
+				!$moving &&
+				!$bigItem &&
+				$state != 'game';
 			if (shouldScroll) {
 				lenis.start();
 				let position = lenis.scroll;
@@ -52,8 +97,8 @@
 					duration: 0.001,
 					easing: (t) => 1 - Math.cos((t * Math.PI) / 2),
 					lerp: 0.9,
-					lock: $backgroundGallery,
-					force: true
+					lock: $backgroundGallery
+					// force: true
 				});
 			} else if ($bigItem) {
 				lenis.stop();
@@ -74,25 +119,37 @@
 	$: adjustBackground($state);
 </script>
 
-<div class="wrapper" transition:fade={{ duration: 300 }}>
-	{#each { length: 2 } as _, i}
-		<div class="grid" bind:this={grid} class:clone={i == 1} class:background={$backgroundGallery}>
-			{#each images as image, i}
-				<div class="grid__item">
-					<Img {copy} {image} offset={(i + 2) % 3 == 0} toggleButton={image.image ? 'none':'info'}></Img>
-				</div>
-			{/each}
-		</div>
-	{/each}
-	{#if $bigItem}
-		<div
-			class="overlay light visable"
-			in:fade={{ duration: 300 }}
-			out:fade={{ duration: 150, delay: 200 }}
-		></div>
-	{/if}
-	<div class="overlay dark" class:visable={$backgroundGallery}></div>
-</div>
+{#if loaded}
+	<div class="wrapper" transition:fade={{ duration: 600 }}>
+		{#each { length: 2 } as _, i}
+			<div
+				class="grid"
+				bind:this={grid}
+				class:clone={i == 1}
+				class:background={$backgroundGallery && loaded}
+			>
+				{#each images as image, i}
+					<div class="grid__item">
+						<Img
+							{copy}
+							{image}
+							offset={(i + 2) % 3 == 0}
+							toggleButton={image.image ? 'none' : 'info'}
+						></Img>
+					</div>
+				{/each}
+			</div>
+		{/each}
+		{#if $bigItem}
+			<div
+				class="overlay light visable"
+				in:fade={{ duration: 300 }}
+				out:fade={{ duration: 150, delay: 200 }}
+			></div>
+		{/if}
+		<div class="overlay dark" class:visable={$backgroundGallery}></div>
+	</div>
+{/if}
 
 <style lang="scss">
 	.wrapper {
@@ -101,8 +158,6 @@
 		align-items: center;
 		flex-direction: column;
 		background-color: var(--background);
-
-
 	}
 	.clone {
 		max-height: calc(100dvh - 2 * var(--halfPadding));

@@ -4,12 +4,16 @@
 	import { bigItem, stageNumber, state, gameData } from '$lib/store.js';
 	export let data;
 
+	let loaded: boolean;
+
 	$: console.log($gameData, $stageNumber);
 </script>
 
-<slot></slot>
+{#if loaded}
+	<slot></slot>
+{/if}
 {#if $state != 'game'}
-	<Gallery images={data.images} copy={data.copy}></Gallery>
+	<Gallery images={data.images} copy={data.copy} bind:loaded></Gallery>
 {/if}
 
 <style lang="scss">

@@ -90,7 +90,7 @@
 			{:else}
 				<ScreenWrapper>
 					<CopyBox>
-						{#if $maxStages < $stageNumber + 1}
+						{#if $maxStages > $stageNumber + 1}
 							{@html copy.siteCopy.restartText}
 						{:else}
 							{@html copy.siteCopy.errotText}

@@ -3,7 +3,7 @@ import { gameData } from '$lib/store';
 import type { userData } from '$lib/types';
 import { json } from '@sveltejs/kit';
 import PocketBase from 'pocketbase';
-
+import sharp from 'sharp';
 const pb = new PocketBase(POCKET_URL);
 const authData = await pb.admins.authWithPassword(POCKET_USER, POCKET_PASS);
 
@@ -13,6 +13,29 @@ type ImageData = {
 	chosen: string;
 	prompt: string;
 };
+
+// export async function GET() {
+// 	const records: RecordModel[] = await pb.collection('images').getFullList({
+// 		sort: '-created'
+// 	});
+// 	for (let element of records) {
+// 		let imageUrl = pb.files.getUrl(element, element.image);
+// 		console.log(imageUrl);
+// 		let image = {
+// 			url: imageUrl
+// 		};
+// 		const formData = new FormData();
+// 		const imageData = image.url;
+// 		const response = await fetch(imageData);
+
+// 		const blob = await response.arrayBuffer();
+
+// 		const webp = await sharp(blob).toFormat('webp').toBuffer();
+// 		formData.append('image', new Blob([webp]));
+
+// 		const imageUpload = await pb.collection('Images').update(element.id, formData);
+// 	}
+// }
 
 export async function POST({ url, request }: { url: URL; request: Request }) {
 	console.log('UPLOADING');
@@ -41,6 +64,7 @@ const uploader = async (data: userData) => {
 				const formData = new FormData();
 				const imageData = image.url;
 				const response = await fetch(imageData);
+
 				const blob = await response.blob();
 				formData.append('colour', image.colour || '');
 				formData.append('image', blob);

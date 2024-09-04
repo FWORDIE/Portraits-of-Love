@@ -4,7 +4,6 @@
 	import { fade } from 'svelte/transition';
 
 	import Intro from './screens/intro.svelte';
-	import MainLoop from './screens/mainLoop.svelte';
 	import Generator from './screens/Generator.svelte';
 	import ImagePicker from './screens/ImagePicker.svelte';
 	import ConfirmScreen from './screens/ConfirmScreen.svelte';
@@ -12,7 +11,7 @@
 	export let copy: DatoData;
 </script>
 
-<div class="gameWrapper" transition:fade={{ duration: 1200 }}>
+<div class="gameWrapper" in:fade={{ duration: 1200 }}>
 	{#if $stageNumber < 0}
 		<Intro {copy}></Intro>
 	{:else if $stageNumber >= 0}
@@ -38,6 +37,7 @@
 		align-content: space-between;
 		justify-content: center;
 		z-index: 4;
+        padding-block: var(--largePadding);
 		// position: relative;
 	}
 </style>

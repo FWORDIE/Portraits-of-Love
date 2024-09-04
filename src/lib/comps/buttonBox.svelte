@@ -22,7 +22,6 @@
         display: flex;
         justify-content: center;
         width: 100%;
-
         gap: var(--padding);
 	}
 </style>

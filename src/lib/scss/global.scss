@@ -211,6 +211,10 @@ html.lenis body {
 
 .overlay {
 	transition: all 500ms ease;
+    -webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-ms-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
 	background-color: var(--darkBack);
 	position: fixed;
 	height: 100%;
@@ -218,6 +222,8 @@ html.lenis body {
 	z-index: 1;
 	pointer-events: none;
 	opacity: 0;
+    top: 0;
+    left: 0;
 
 	&.visable.light {
 		background-color: var(--background);
