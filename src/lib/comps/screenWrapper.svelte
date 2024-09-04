@@ -13,14 +13,10 @@
 		hidden = false;
 	});
 
-	// onDestroy(async()=>{
-	// 	hidden = true;
-	//     await delay(700);
 
-	// })
 </script>
 
-	<div class="wrapper" class:hidden>
+	<div class="wrapper" class:hidden  in:fade|global={{ duration: 300, delay: 300 }}  out:fade|global={{ duration: 300 }} >
 		<slot></slot>
 	</div>
 
