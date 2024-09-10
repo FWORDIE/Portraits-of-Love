@@ -24,9 +24,7 @@
 </ScreenWrapper>
 {#if note.length > 0}
 	<ButtonBox>
-		<button class="textButton" on:click={() => addNote()}>
-			{@html copy.siteCopy.shareItButtonText}
-		</button>
+		<button class="textButton" on:click={() => addNote()}> Share </button>
 	</ButtonBox>
 {/if}
 

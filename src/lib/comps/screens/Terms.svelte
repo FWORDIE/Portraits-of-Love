@@ -6,11 +6,15 @@
 	import type { DatoData, ImageType } from '$lib/types';
 	export let copy: DatoData;
 
-    let image =$gameData.stages[$stageNumber].images.find((image) => image.chosen) as ImageType;
+	let image = $gameData.stages[$stageNumber].images.find((image) => image.chosen) as ImageType;
+
+	export let uploaded = false;
+	let uploading = false;
 
 	const terms = async (upload: boolean) => {
-		let uploading = false;
-		$gameData.finalImg = image;
+		if ($gameData.finalImg === undefined) {
+			$gameData.finalImg = image;
+		}
 		$gameData = $gameData;
 		//Add Upload function
 		if (upload) {
@@ -41,8 +45,10 @@
 				})
 				.finally(() => {
 					uploading = false;
+					uploaded = true;
 				});
 		}
+		uploaded = true;
 	};
 </script>
 
@@ -51,13 +57,17 @@
 		{@html copy.siteCopy.termsText}
 	</CopyBox>
 </ScreenWrapper>
-<ButtonBox>
-	<button class="textButton" on:click={() => terms(false)}>
-		{@html copy.siteCopy.termsNoButtonText}
-	</button>
-	<button class="textButton" on:click={() => terms(true)}>
-		{@html copy.siteCopy.termsYesButtonText}
-	</button>
+<ButtonBox
+	>{#if !uploading}
+		<button class="textButton" on:click={() => terms(false)}>
+			{@html copy.siteCopy.termsNoButtonText}
+		</button>
+		<button class="textButton" on:click={() => terms(true)}>
+			{@html copy.siteCopy.termsYesButtonText}
+		</button>
+	{:else}
+		uploading...
+	{/if}
 </ButtonBox>
 
 <style lang="scss">

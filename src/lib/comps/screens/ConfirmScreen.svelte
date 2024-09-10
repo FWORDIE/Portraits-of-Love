@@ -20,6 +20,7 @@
 	let sharing = false;
 
 	let sent: boolean = false;
+    let uploaded = false
 </script>
 
 <SingleImage {copy}></SingleImage>
@@ -27,8 +28,8 @@
 	<Sharing {copy} bind:sharing></Sharing>
 {:else if !$gameData.note}
 	<Note {copy}></Note>
-{:else if !$gameData.finalImg}
-	<Terms {copy}></Terms>
+{:else if !uploaded}
+	<Terms {copy} bind:uploaded></Terms>
 {:else if !sent}
 	<Send bind:sent {copy}></Send>
 {:else if sent}

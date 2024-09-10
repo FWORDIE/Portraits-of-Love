@@ -72,7 +72,7 @@
 
 		lenis.on('scroll', (e) => {
 			scrollDirection = e.direction;
-			if (scrollDirection == 0) {
+			if (scrollDirection == 0 || !scrollDirection) {
 				scrollDirection = lastDirection;
 				return;
 			}
@@ -90,6 +90,7 @@
 				!$moving &&
 				!$bigItem &&
 				$state != 'game';
+                // console.log(shouldScroll,scrollDirection)
 			if (shouldScroll) {
 				lenis.start();
 				let position = lenis.scroll;
@@ -97,7 +98,7 @@
 					duration: 0.001,
 					easing: (t) => 1 - Math.cos((t * Math.PI) / 2),
 					lerp: 0.9,
-					lock: $backgroundGallery
+					// lock: $backgroundGallery
 					// force: true
 				});
 			} else if ($bigItem) {
