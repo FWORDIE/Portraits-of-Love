@@ -98,7 +98,7 @@
 					duration: 0.001,
 					easing: (t) => 1 - Math.cos((t * Math.PI) / 2),
 					lerp: 0.9,
-					// lock: $backgroundGallery
+					lock: $backgroundGallery
 					// force: true
 				});
 			} else if ($bigItem) {
