@@ -1,6 +1,7 @@
 import { performRequest } from '$lib/datocms.js';
 import type { GalleryImage } from '$lib/types.js';
 import { executeQuery } from '@datocms/cda-client';
+import { LIVE } from '$env/static/private';
 
 const query = `
 query all {
@@ -63,5 +64,5 @@ export const load = async ({ fetch }) => {
 	const images: GalleryImage[] = await response.json();
 
 	const copy = await performRequest(query);
-	return { images: images, copy: copy };
+	return { images: images, copy: copy, live: LIVE == 'true' };
 };

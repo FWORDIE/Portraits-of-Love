@@ -19,4 +19,6 @@ export let stageNumber = writable(-1);
 
 export let maxStages = writable(3);
 
+export let live = writable(false)
+
 

@@ -4,7 +4,7 @@
 	import Gallery from '$lib/comps/gallery.svelte';
 	import ScreenWrapper from '$lib/comps/screenWrapper.svelte';
 	import '$lib/scss/global.scss';
-	import { bigItem, stageNumber, state, gameData } from '$lib/store.js';
+	import { bigItem, stageNumber, state, gameData, live } from '$lib/store.js';
 	import type { DatoData } from '$lib/types.js';
 	export let data;
 	let copy: DatoData = data.copy as DatoData;
@@ -16,6 +16,8 @@
 	import { onMount } from 'svelte';
 	onMount(() => {
 		var idleInterval = setInterval(timerIncrement, 60000); // 1 minute
+
+		$live = data.live;
 	});
 
 	function timerIncrement() {

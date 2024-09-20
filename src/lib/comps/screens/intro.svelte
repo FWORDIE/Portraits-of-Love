@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_LIVE } from '$env/static/public';
-	import { stageNumber } from '$lib/store';
+	import { live, stageNumber } from '$lib/store';
 	import type { DatoData } from '$lib/types';
 	import ButtonBox from '../buttonBox.svelte';
 	import CopyBox from '../copyBox.svelte';
@@ -15,7 +14,7 @@
 
 <ScreenWrapper>
 	<CopyBox>
-		{#if PUBLIC_LIVE == 'true'}
+		{#if $live}
 			{@html copy.siteCopy.introExhibitionText}
 		{:else}
 			{@html copy.siteCopy.introText}
