@@ -17,50 +17,48 @@ type ImageData = {
 	prompt: string;
 };
 
-// export async function GET() {
-// 	const records: RecordModel[] = await pb.collection('images').getFullList({
-// 		sort: '+created'
-// 	});
-// 	for (let element of records) {
-// 		let imageUrl = pb.files.getUrl(element, element.image);
-// 		console.log(imageUrl);
-// 		let image = {
-// 			url: imageUrl
-// 		};
-// 		const formData = new FormData();
-// 		const imageData = image.url;
-// 		const response = await fetch(imageData);
+export async function GET() {
+	const records: RecordModel[] = await pb.collection('images').getFullList({
+		sort: '+created'
+	});
+	for (let element of records) {
+		let imageUrl = pb.files.getUrl(element, element.image);
+		console.log(imageUrl);
+		let image = {
+			url: imageUrl
+		};
+		const formData = new FormData();
+		const imageData = image.url;
+		const response = await fetch(imageData);
 
-// 		const blob = await response.arrayBuffer();
+		const blob = await response.arrayBuffer();
 
-// 		const sharpImg = sharp(blob);
-// 		const dimensions = await sharpImg.metadata();
-// 		console.log(dimensions);
+		const sharpImg = sharp(blob);
+		const dimensions = await sharpImg.metadata();
+		console.log(dimensions);
 
-// 		let { width, height } = dimensions;
-// 		if (!width) {
-// 			width = 512;
-// 		}
-// 		if (!height) {
-// 			height = 512;
-// 		}
-// 		// const hash = encode(
-// 		// 	new Uint8ClampedArray(await sharpImg.raw().ensureAlpha().toBuffer()),
-// 		// 	width,
-// 		// 	height,
-// 		// 	4,
-// 		// 	4
-// 		// );
-// 		console.log(element);
-// 		let hash = '';
-// 		if (element.hash) {
-// 			hash = blurHashToDataURL(element.hash) || '';
-// 		}
-// 		formData.append('hash', hash);
+		let { width, height } = dimensions;
+		if (!width) {
+			width = 512;
+		}
+		if (!height) {
+			height = 512;
+		}
+		const hash = encode(
+			new Uint8ClampedArray(await sharpImg.raw().ensureAlpha().toBuffer()),
+			width,
+			height,
+			4,
+			4
+		);
+		console.log(element);
 
-// 		const imageUpload = await pb.collection('Images').update(element.id, formData);
-// 	}
-// }
+		formData.append('hash', hash);
+		const webp = await sharp(blob).toFormat('webp').toBuffer();
+		formData.append('image', new Blob([webp]));
+		const imageUpload = await pb.collection('Images').update(element.id, formData);
+	}
+}
 
 export async function POST({ url, request }: { url: URL; request: Request }) {
 	console.log('UPLOADING');
@@ -150,7 +148,7 @@ const uploader = async (data: userData) => {
 			stages: stageIds,
 			finalImage: finalImgId,
 			reason: data.note,
-            printStatus: PUBLIC_LIVE  == 'true' ? 'toPrint' : 'noPrint'
+			printStatus: PUBLIC_LIVE == 'true' ? 'toPrint' : 'noPrint'
 		};
 
 		const userUpload = await pb.collection('userData').create(uploadData);
