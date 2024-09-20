@@ -66,6 +66,7 @@
 			await fetch(
 				'/api/imageGen?' +
 					new URLSearchParams({
+                        system:copy.siteCopy.systemPrompt,
 						prompt: getPrompt(prompt),
 						model: 'schnell',
 						number: '4',

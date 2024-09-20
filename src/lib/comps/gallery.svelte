@@ -7,6 +7,7 @@
 	import { bigItem, backgroundGallery, state, moving } from '$lib/store';
 	import type { GalleryImage } from '$lib/types';
 	import { fade, scale } from 'svelte/transition';
+	import { delay } from '$lib/funcs';
 	export let copy;
 	export let images: GalleryImage[];
 
@@ -22,46 +23,46 @@
 
 	export let loaded = false;
 
-	async function loadImages(imageUrlArray: GalleryImage[]) {
-		const promiseArray = []; // create an array for promises
-		const imageArray: HTMLImageElement[] = []; // array for the images
+	// async function loadImages(imageUrlArray: GalleryImage[]) {
+	// 	const promiseArray = []; // create an array for promises
+	// 	const imageArray: HTMLImageElement[] = []; // array for the images
 
-		for (let imageUrl of imageUrlArray) {
-			if (imageUrl.image != undefined) {
-				promiseArray.push(
-					new Promise<void>((resolve) => {
-						const img = new Image();
-						// if you don't need to do anything when the image loads,
-						// then you can just write img.onload = resolve;
+	// 	for (let imageUrl of imageUrlArray) {
+	// 		if (imageUrl.image != undefined) {
+	// 			promiseArray.push(
+	// 				new Promise<void>((resolve) => {
+	// 					const img = new Image();
+	// 					// if you don't need to do anything when the image loads,
+	// 					// then you can just write img.onload = resolve;
 
-						img.onload = function () {
-							// do stuff with the image if necessary
+	// 					img.onload = function () {
+	// 						// do stuff with the image if necessary
 
-							// resolve the promise, indicating that the image has been loaded
-							resolve();
-						};
-						if (imageUrl.image) {
-							img.src = imageUrl.image;
-						}
-						imageArray.push(img);
-					})
-				);
-			}
-		}
+	// 						// resolve the promise, indicating that the image has been loaded
+	// 						resolve();
+	// 					};
+	// 					if (imageUrl.image) {
+	// 						img.src = imageUrl.image;
+	// 					}
+	// 					imageArray.push(img);
+	// 				})
+	// 			);
+	// 		}
+	// 	}
 
-		await Promise.all(promiseArray); // wait for all the images to be loaded
-		console.log('all images loaded');
-		return imageArray;
-	}
+	// 	await Promise.all(promiseArray); // wait for all the images to be loaded
+	// 	console.log('all images loaded');
+	// 	return imageArray;
+	// }
 
 	// let lastPos: number | boolean = null;
 
-	onMount(() => {
-		loadImages(images).then((images) => {
-			console.log('loaded');
-			loaded = true;
-			// the loaded images are in the images array
-		});
+	onMount(async () => {
+		// loadImages(images).then((images) => {
+		// 	console.log('loaded');
+		// 	loaded = true;
+		// 	// the loaded images are in the images array
+		// });
 
 		lenis = new Lenis({
 			infinite: true,
@@ -107,6 +108,11 @@
 		});
 
 		gsap.ticker.lagSmoothing(0);
+
+        await delay(1000)
+
+        loaded = true;
+
 	});
 
 	const adjustBackground = (state: string) => {

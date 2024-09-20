@@ -1,9 +1,12 @@
 import { POCKET_PASS, POCKET_URL, POCKET_USER } from '$env/static/private';
 import { gameData } from '$lib/store';
+import { encode, isBlurhashValid } from 'blurhash';
 import type { userData } from '$lib/types';
 import { json } from '@sveltejs/kit';
-import PocketBase from 'pocketbase';
+import PocketBase, { type RecordModel } from 'pocketbase';
 import sharp from 'sharp';
+import { blurHashToDataURL } from '$lib/funcs';
+import { PUBLIC_LIVE } from '$env/static/public';
 const pb = new PocketBase(POCKET_URL);
 const authData = await pb.admins.authWithPassword(POCKET_USER, POCKET_PASS);
 
@@ -16,7 +19,7 @@ type ImageData = {
 
 // export async function GET() {
 // 	const records: RecordModel[] = await pb.collection('images').getFullList({
-// 		sort: '-created'
+// 		sort: '+created'
 // 	});
 // 	for (let element of records) {
 // 		let imageUrl = pb.files.getUrl(element, element.image);
@@ -30,8 +33,30 @@ type ImageData = {
 
 // 		const blob = await response.arrayBuffer();
 
-// 		const webp = await sharp(blob).toFormat('webp').toBuffer();
-// 		formData.append('image', new Blob([webp]));
+// 		const sharpImg = sharp(blob);
+// 		const dimensions = await sharpImg.metadata();
+// 		console.log(dimensions);
+
+// 		let { width, height } = dimensions;
+// 		if (!width) {
+// 			width = 512;
+// 		}
+// 		if (!height) {
+// 			height = 512;
+// 		}
+// 		// const hash = encode(
+// 		// 	new Uint8ClampedArray(await sharpImg.raw().ensureAlpha().toBuffer()),
+// 		// 	width,
+// 		// 	height,
+// 		// 	4,
+// 		// 	4
+// 		// );
+// 		console.log(element);
+// 		let hash = '';
+// 		if (element.hash) {
+// 			hash = blurHashToDataURL(element.hash) || '';
+// 		}
+// 		formData.append('hash', hash);
 
 // 		const imageUpload = await pb.collection('Images').update(element.id, formData);
 // 	}
@@ -65,9 +90,30 @@ const uploader = async (data: userData) => {
 				const imageData = image.url;
 				const response = await fetch(imageData);
 
-				const blob = await response.blob();
+				const blob = await response.arrayBuffer();
+				const sharpImg = sharp(blob);
+				const dimensions = await sharpImg.metadata();
+				let { width, height } = dimensions;
+				if (!width) {
+					width = 512;
+				}
+				if (!height) {
+					height = 512;
+				}
+				const hash = encode(
+					new Uint8ClampedArray(await sharpImg.raw().ensureAlpha().toBuffer()),
+					width,
+					height,
+					4,
+					4
+				);
+
+				const webp = await sharp(blob).toFormat('webp').toBuffer();
+				formData.append('image', new Blob([webp]));
+				formData.append('hash', hash);
+				formData.append('width', width.toString());
+				formData.append('height', height.toString());
 				formData.append('colour', image.colour || '');
-				formData.append('image', blob);
 				formData.append('prompt', image.prompt);
 				formData.append('chosen', image.chosen ? 'True' : 'False');
 				const imageUpload = await pb.collection('Images').create(formData);
@@ -103,7 +149,8 @@ const uploader = async (data: userData) => {
 		const uploadData = {
 			stages: stageIds,
 			finalImage: finalImgId,
-			reason: data.note
+			reason: data.note,
+            printStatus: PUBLIC_LIVE  == 'true' ? 'toPrint' : 'noPrint'
 		};
 
 		const userUpload = await pb.collection('userData').create(uploadData);

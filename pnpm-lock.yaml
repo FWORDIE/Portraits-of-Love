@@ -8,12 +8,18 @@ dependencies:
   '@datocms/cda-client':
     specifier: ^0.2.2
     version: 0.2.2
+  '@datocms/svelte':
+    specifier: ^3.0.4
+    version: 3.0.4(svelte@4.2.18)
   '@fal-ai/serverless-client':
     specifier: ^0.14.2
     version: 0.14.2
   '@sveltejs/adapter-node':
     specifier: ^5.2.2
     version: 5.2.2(@sveltejs/kit@2.5.17)
+  blurhash:
+    specifier: ^2.0.5
+    version: 2.0.5
   extract-colors:
     specifier: ^4.0.6
     version: 4.0.6
@@ -123,6 +129,23 @@ packages:
     resolution: {integrity: sha512-Qnyc8OR2EoWiQx7NhOFUKmNBw/xh73AkREq70h0vFZlSR1T115qBzmE66T/HLVOJNM+kBQ7zXwVtFijzT2ThKQ==}
     dependencies:
       '@0no-co/graphql.web': 1.0.8
+    transitivePeerDependencies:
+      - graphql
+    dev: false
+
+  /@datocms/svelte@3.0.4(svelte@4.2.18):
+    resolution: {integrity: sha512-FHyKJwFW0NbkfTEgN/28ObZ/2QoVk1Tl7z9GPfvlsX3/NSqOlYieu/xJilDpEBcvpxYgRtuAnMXLRmWkZe4QtA==}
+    peerDependencies:
+      '@mux/mux-player': '*'
+      svelte: ^3.59.2 || ^4.0.0
+    peerDependenciesMeta:
+      '@mux/mux-player':
+        optional: true
+    dependencies:
+      datocms-listen: 0.1.15
+      datocms-structured-text-utils: 4.0.1
+      svelte: 4.2.18
+      svelte-intersection-observer: 1.0.0
     transitivePeerDependencies:
       - graphql
     dev: false
@@ -1088,6 +1111,10 @@ packages:
     dependencies:
       dequal: 2.0.3
 
+  /array-flatten@3.0.0:
+    resolution: {integrity: sha512-zPMVc3ZYlGLNk4mpK1NzP2wg0ml9t7fUgDsayR5Y5rSzxQilzR9FGu/EH2jQOcKSAeAfWeylyW8juy3OkWRvNA==}
+    dev: false
+
   /asn1@0.2.6:
     resolution: {integrity: sha512-ix/FxPn0MDjeyJ7i/yoHGFt/EX6LyNbxSEhPPXODPL+KB0VPk86UYfL0lMdy+KCnv+fmvIzySwaK5COwqVbWTQ==}
     dependencies:
@@ -1132,6 +1159,10 @@ packages:
   /binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
+
+  /blurhash@2.0.5:
+    resolution: {integrity: sha512-cRygWd7kGBQO3VEhPiTgq4Wc43ctsM+o46urrmPOiuAe+07fzlSB9OJVdpgDL0jPqXUVQ9ht7aq7kxOeJHRK+w==}
+    dev: false
 
   /bmp-js@0.1.0:
     resolution: {integrity: sha512-vHdS19CnY3hwiNdkaqk93DvjVLfbEcI8mys4UjuWrlX1haDmroo8o4xCzh4wD6DGV6HxRCyauwhHRqMTfERtjw==}
@@ -1302,6 +1333,20 @@ packages:
 
   /data-uri-to-buffer@0.0.3:
     resolution: {integrity: sha512-Cp+jOa8QJef5nXS5hU7M1DWzXPEIoVR3kbV0dQuVGwROZg8bGf1DcCnkmajBTnvghTtSNMUdRrPjgaT6ZQucbw==}
+    dev: false
+
+  /datocms-listen@0.1.15:
+    resolution: {integrity: sha512-0LcdKYW/ilWdyrRzQ+YbkAk4r2dge63vzHtfv19L8pfbfYurQgXP9/ck703QZL//YqBoc0OKBS4BP4WUQ6JDKA==}
+    dependencies:
+      '@0no-co/graphql.web': 1.0.8
+    transitivePeerDependencies:
+      - graphql
+    dev: false
+
+  /datocms-structured-text-utils@4.0.1:
+    resolution: {integrity: sha512-2rK4bZfzKpdKw2AZhnnD043QkGOUaJDOUGPrQHo5w4hvU4jTBGGxoaTg4KIb3Q5Yo+XUFvreb+U0+86xdh7I+Q==}
+    dependencies:
+      array-flatten: 3.0.0
     dev: false
 
   /debug@4.3.5:
@@ -2545,6 +2590,10 @@ packages:
       svelte: ^3.19.0 || ^4.0.0
     dependencies:
       svelte: 4.2.18
+
+  /svelte-intersection-observer@1.0.0:
+    resolution: {integrity: sha512-AoxSog8fSt9sSN8ajMYM1I48ndq+rmPlaZSkJFCRbZ7I3KO8IPX6pl5mewWxdYL1JDI06hHu/7epn3h5tlJV9w==}
+    dev: false
 
   /svelte-preprocess@5.1.4(sass@1.77.6)(svelte@4.2.18)(typescript@5.5.2):
     resolution: {integrity: sha512-IvnbQ6D6Ao3Gg6ftiM5tdbR6aAETwjhHV+UKGf5bHGYR69RQvF1ho0JKPcbUON4vy4R7zom13jPjgdOWCQ5hDA==}

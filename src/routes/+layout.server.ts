@@ -42,6 +42,17 @@ query all {
     restartButtonText
     noImageText(markdown: true)
     promptNoteText(markdown: true)
+    systemPrompt
+    noImageSmallText
+    introExhibitionText(markdown: true)
+    printText(markdown: true)
+    printButtonText
+    emailPromptText(markdown: true)
+    emailText(markdown: true)
+    desktopWarningText(markdown: true)
+    inactiveText(markdown: true)
+    inactiveButtonResetText
+    inactiveButtonContinueText
   }
 }`;
 

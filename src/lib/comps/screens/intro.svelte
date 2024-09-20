@@ -1,10 +1,12 @@
 <script lang="ts">
+	import { PUBLIC_LIVE } from '$env/static/public';
 	import { stageNumber } from '$lib/store';
+	import type { DatoData } from '$lib/types';
 	import ButtonBox from '../buttonBox.svelte';
 	import CopyBox from '../copyBox.svelte';
 	import ScreenWrapper from '../screenWrapper.svelte';
 
-	export let copy;
+	export let copy: DatoData;
 
 	const next = () => {
 		$stageNumber = $stageNumber + 1;
@@ -13,7 +15,11 @@
 
 <ScreenWrapper>
 	<CopyBox>
-		{@html copy.siteCopy.introText}
+		{#if PUBLIC_LIVE == 'true'}
+			{@html copy.siteCopy.introExhibitionText}
+		{:else}
+			{@html copy.siteCopy.introText}
+		{/if}
 	</CopyBox>
 </ScreenWrapper>
 <ButtonBox>

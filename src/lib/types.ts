@@ -10,7 +10,7 @@ export type ImageType = {
 	file_size: number;
 	palette?: Palette;
 	colour?: string;
-    chosen?: boolean;
+	chosen?: boolean;
 	prompt: string;
 };
 
@@ -23,7 +23,7 @@ export type ImageWPal = {
 export type userData = {
 	id?: string;
 	stages: stage[];
-    note?:string
+	note?: string;
 	finalImg: ImageType | undefined | false;
 };
 
@@ -46,6 +46,16 @@ export type GalleryImage = {
 	image: string | undefined;
 	date?: string;
 	prompt: string[];
+	data: dataImg | undefined;
+};
+
+export type dataImg = {
+	src: string;
+	width: number;
+	height: number;
+	alt: string;
+	base64: string;
+	bgColor: string;
 };
 
 export type stateType = 'home' | 'gallery' | 'about' | 'game';
@@ -90,8 +100,18 @@ export interface SiteCopy {
 	termsText: string;
 	termsYesButtonText: string;
 	title: string;
-    restartText:string;
-    restartButtonText:string;
-    noImageText:string;
-    promptNoteText:string;
+	restartText: string;
+	restartButtonText: string;
+	noImageText: string;
+	promptNoteText: string;
+	systemPrompt: string;
+	noImageSmallText: string;
+	introExhibitionText: string;
+	printButton: string;
+	emailPromptText: string;
+	emailText: string;
+	desktopWarningText: string;
+	inactiveText: string;
+	inactiveButtonResetText: string;
+	inactiveButtonContinueText: string;
 }

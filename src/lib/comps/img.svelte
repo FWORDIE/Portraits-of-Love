@@ -9,10 +9,13 @@
 	import ButtonBox from './buttonBox.svelte';
 	import ScreenWrapper from './screenWrapper.svelte';
 	import CopyBox from './copyBox.svelte';
+	import { lazyLoad } from '$lib/funcs';
+	import { Image as DatoImg } from '@datocms/svelte';
+
 	export let image: GalleryImage;
 	export let offset: boolean = false;
 	export let showPrompt = true;
-	export let toggleButton:string;
+	export let toggleButton: string;
 	export let disable = false;
 
 	export let copy: DatoData;
@@ -28,6 +31,7 @@
 	let fullscreen = false;
 
 	onMount(async () => {
+		console.log(image);
 		gsap.registerPlugin(Flip);
 	});
 
@@ -79,16 +83,22 @@
 >
 	<div class="imageArea" bind:this={imageArea}>
 		{#if image.image}
-			<img class="imgLike" bind:this={imgElem} src={image.image} alt="" />
+			{#if image.data}
+				<DatoImg class="imgLike" data={image.data} fadeInDuration={300}></DatoImg>
+			{:else}
+				<img src={image.image} alt="Generated output based of your prompt" />
+			{/if}
 		{:else}
 			<div class="imgLike noImg">
 				{#if fullscreen || toggleButton == 'prompt'}
-					<h1 in:fade={{ duration: 150, delay: 300 }} out:fade={{ duration: 150 }}>No Image</h1>
+					<h1 in:fade={{ duration: 150, delay: 300 }} out:fade={{ duration: 150 }}>
+						{@html copy.siteCopy.noImageSmallText}
+					</h1>
 				{/if}
 			</div>
 		{/if}
 		{#if (fullscreen && toggleButton == 'info') || toggleButton == 'prompt'}
-			{#if !toggled }
+			{#if !toggled}
 				<button
 					class="textButton small invert onImage"
 					on:click={() => (toggled = true)}
@@ -97,7 +107,7 @@
 				>
 					{toggleButton == 'info' ? 'More info' : 'Show prompt'}
 				</button>
-			{:else }
+			{:else}
 				<button
 					on:click={() => (toggled = false)}
 					class="textButton small invert onImage"
@@ -172,7 +182,7 @@
 			&:only-child {
 				justify-content: center;
 			}
-			.imgLike {
+			:global(.imgLike) {
 				border-radius: var(--quatPadding);
 				box-shadow: var(--shadowOne);
 				width: 100%;

@@ -17,7 +17,7 @@ export async function GET({ url }: { url: URL }) {
 		console.log(await records.length);
 		let returnRecords: any[] = [];
 		if (records[0]) {
-			returnRecords = getMultipleRandom(records, numOfImages);
+			returnRecords = records
 
 			returnRecords = returnRecords.map((data) => {
 				let imageUrl = undefined;
@@ -37,7 +37,9 @@ export async function GET({ url }: { url: URL }) {
 				let returnImage = {
 					date: data.created,
 					image: imageUrl,
-					data: obj,
+                    printStatus:data.printStatus,
+					amageData: obj,
+                    rawData:data,
 					prompt: data.expand.stages.map((stage: any) => {
 						return stage.prompt;
 					})
@@ -53,12 +55,12 @@ export async function GET({ url }: { url: URL }) {
 	}
 }
 
-function getMultipleRandom(arr: RecordModel[], num: number) {
-	if (num == 0) {
-		let rem = arr.length % 3;
-		num = arr.length - rem;
-		console.log(num);
-	}
-	const shuffled = [...arr].sort(() => 0.5 - Math.random());
-	return shuffled.slice(0, num);
-}
+// function getMultipleRandom(arr: RecordModel[], num: number) {
+// 	if (num == 0) {
+// 		let rem = arr.length % 3;
+// 		num = arr.length - rem;
+// 		console.log(num);
+// 	}
+// 	const shuffled = [...arr].sort(() => 0.5 - Math.random());
+// 	return shuffled.slice(0, num);
+// }

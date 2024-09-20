@@ -18,32 +18,33 @@
 </script>
 
 <!-- {#if $state != 'game'} -->
-<Nav {copy}></Nav>
-<!-- {/if} -->
-{#if $state == 'home'}
-	<div class="titleWrapper" transition:fade={{ duration: 300 }}>
-		<h1 class="title">{copy.siteCopy.title}</h1>
-	</div>
-	<ButtonBox>
-		<button class="textButton invert" on:click={() => changeState('game')}>
-			{copy.siteCopy.startButtonText}
-		</button>
-	</ButtonBox>
-{/if}
-
-{#if $state == 'game'}
-	<Game {copy}></Game>
-{/if}
-
-{#if $state == 'about'}
-	<h1 class="title">{copy.siteCopy.title}</h1>
-	<div class="fixed" transition:fade={{ duration: 300 }}>
-		<CopyBox>
+	<Nav {copy}></Nav>
+	<!-- {/if} -->
+	{#if $state == 'home'}
+		<div class="titleWrapper" transition:fade={{ duration: 300 }}>
 			<h1 class="title">{copy.siteCopy.title}</h1>
-			{@html copy.siteCopy.aboutText}
-		</CopyBox>
-	</div>
-{/if}
+		</div>
+		<ButtonBox>
+			<button class="textButton invert" on:click={() => changeState('game')}>
+				{copy.siteCopy.startButtonText}
+			</button>
+		</ButtonBox>
+	{/if}
+
+	{#if $state == 'game'}
+		<Game {copy}></Game>
+	{/if}
+
+	{#if $state == 'about'}
+		<h1 class="title">{copy.siteCopy.title}</h1>
+		<div class="fixed" transition:fade={{ duration: 300 }}>
+			<CopyBox>
+				<h1 class="title">{copy.siteCopy.title}</h1>
+				{@html copy.siteCopy.aboutText}
+			</CopyBox>
+		</div>
+	{/if}
+
 
 <style lang="scss">
 	.fixed {
@@ -55,16 +56,16 @@
 		height: 100%;
 		padding: var(--largePadding);
 		z-index: 3;
-        :global(a){
-            color: var(--black);
-        }
-        .title{
-            font-size: var(--font-size-xl);
+		:global(a) {
+			color: var(--black);
+		}
+		.title {
+			font-size: var(--font-size-xl);
 			color: var(--black);
 			font-family: 'EB Garamond';
 			font-weight: 800;
-            margin-bottom: var(--padding);
-        }
+			margin-bottom: var(--padding);
+		}
 	}
 
 	.titleWrapper {
@@ -89,4 +90,5 @@
 			user-select: none;
 		}
 	}
+
 </style>

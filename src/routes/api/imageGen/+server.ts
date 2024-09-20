@@ -18,6 +18,7 @@ fal.config({
 
 export async function GET({ url }: { url: URL }) {
 	const newUrl = new URL(url);
+    const system = newUrl.searchParams.get('system') || extraPrompt;
 	const prompt = newUrl.searchParams.get('prompt');
 	const model = newUrl.searchParams.get('model') || 'schnell';
 	const number = parseInt(newUrl.searchParams.get('number') || '1');
@@ -67,7 +68,7 @@ export async function GET({ url }: { url: URL }) {
 	}
 	try {
         console.log('Genning')
-		let images: ImageType[] | any = await genImg(extraPrompt, prompt, model, number, image);
+		let images: ImageType[] | any = await genImg(system, prompt, model, number, image);
 		if (images[0]) {
 			images = await Promise.all(
 				images.map(async (image: ImageType) => {
