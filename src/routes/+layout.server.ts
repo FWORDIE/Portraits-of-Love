@@ -48,8 +48,8 @@ query all {
     introExhibitionText(markdown: true)
     printText(markdown: true)
     printButtonText
-    emailPromptText(markdown: true)
-    emailText(markdown: true)
+    emailPromptText
+    emailText
     desktopWarningText(markdown: true)
     inactiveText(markdown: true)
     inactiveButtonResetText

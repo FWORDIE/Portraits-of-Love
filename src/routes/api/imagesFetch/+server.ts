@@ -45,7 +45,6 @@ export async function GET({ url }: { url: URL }) {
 				return returnImage;
 			});
 		}
-
 		return json(returnRecords);
 	} catch (e: any) {
 		console.error('Error in GET function:', e);

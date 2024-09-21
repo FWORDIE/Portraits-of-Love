@@ -21,6 +21,9 @@
 	});
 
 	function timerIncrement() {
+        if($state == 'home'){
+            return
+        }
 		idleTime = idleTime + 1;
 		if (idleTime > 5 && !inactive) {
 			// 20 minutes
@@ -54,7 +57,7 @@
 	$: console.log($gameData, $stageNumber);
 </script>
 
-<svelte:body on:mousedown={reset} />
+<svelte:body on:mousedown={reset} on:keydown={reset}/>
 <div class="mob">
 	{#if loaded}
 		<slot></slot>

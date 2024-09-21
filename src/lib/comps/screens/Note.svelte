@@ -16,11 +16,13 @@
 	};
 </script>
 
-<ScreenWrapper>
-	<CopyBox>
-		{@html $gameData.finalImg == false ? copy.siteCopy.promptNoteText : copy.siteCopy.noteText}
-		<InputBox bind:text={note}></InputBox>
-	</CopyBox>
+<ScreenWrapper bottom ={true}>
+    <CopyBox bottom ={true} only={true}>
+        {@html $gameData.finalImg == false ? copy.siteCopy.promptNoteText : copy.siteCopy.noteText}
+        <InputBox bind:text={note}></InputBox>
+
+    </CopyBox>
+
 </ScreenWrapper>
 {#if note.length > 0}
 	<ButtonBox>

@@ -107,11 +107,12 @@ export interface SiteCopy {
 	systemPrompt: string;
 	noImageSmallText: string;
 	introExhibitionText: string;
-	printButton: string;
+	printButtonText: string;
 	emailPromptText: string;
 	emailText: string;
 	desktopWarningText: string;
 	inactiveText: string;
 	inactiveButtonResetText: string;
 	inactiveButtonContinueText: string;
+    printText:string;
 }

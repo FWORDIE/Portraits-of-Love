@@ -15,6 +15,8 @@
 	const changeState = (state: stateType) => {
 		$state = state;
 	};
+
+
 </script>
 
 <!-- {#if $state != 'game'} -->

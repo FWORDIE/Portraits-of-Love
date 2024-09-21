@@ -66,7 +66,7 @@
 			await fetch(
 				'/api/imageGen?' +
 					new URLSearchParams({
-                        system:copy.siteCopy.systemPrompt,
+						system: copy.siteCopy.systemPrompt,
 						prompt: getPrompt(prompt),
 						model: 'schnell',
 						number: '4',
@@ -111,28 +111,35 @@
 	};
 </script>
 
-	{#if !loading}
-		<ScreenWrapper>
-			<CopyBox>
-				{@html copy.siteCopy.incitementAlwaysText}
-				{@html incitement}
-			</CopyBox>
-			<CopyBox>
-				<InputBox bind:text></InputBox>
-			</CopyBox>
-		</ScreenWrapper>
-		{#if text.length > 0}
-			<ButtonBox>
-				<button class="textButton" on:click={generate}>
-					{copy.siteCopy.incitementButton}
-				</button>
-			</ButtonBox>
-		{/if}
-	{:else}
-		<ScreenWrapper>
-			<Loading {copy}></Loading>
-		</ScreenWrapper>
+{#if !loading}
+	<ScreenWrapper>
+		<CopyBox>
+			{@html copy.siteCopy.incitementAlwaysText}
+			{@html incitement}
+            {#if $gameData.stages.length > 0}
+            {#each $gameData.stages as stage}
+                {#if stage.images.some((image) => image.chosen)}
+                    <p class="italic">{stage.prompt}...</p>
+                {/if}
+            {/each}
+        {/if}
+		</CopyBox>
+		<CopyBox bottom={true}>
+			<InputBox bind:text></InputBox>
+		</CopyBox>
+	</ScreenWrapper>
+	{#if text.length > 0}
+		<ButtonBox>
+			<button class="textButton" on:click={generate}>
+				{copy.siteCopy.incitementButton}
+			</button>
+		</ButtonBox>
 	{/if}
+{:else}
+	<ScreenWrapper>
+		<Loading {copy}></Loading>
+	</ScreenWrapper>
+{/if}
 
 <style lang="scss">
 </style>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { delay, getRandomArbitrary } from '$lib/funcs';
-	import { bigItem, moving } from '$lib/store';
-	import type { DatoData, GalleryImage } from '$lib/types';
+	import { bigItem, moving, state } from '$lib/store';
+	import type { DatoData, GalleryImage, stateType } from '$lib/types';
 	import gsap from 'gsap';
 	import Flip from 'gsap/dist/Flip';
 	import { onMount, tick } from 'svelte';
@@ -26,12 +26,11 @@
 	let promptArea: HTMLElement;
 
 	let toggled = false;
-	let state: any;
+	let flipstate: any;
 
 	let fullscreen = false;
 
 	onMount(async () => {
-		console.log(image);
 		gsap.registerPlugin(Flip);
 	});
 
@@ -43,7 +42,7 @@
 		if (disable && !overRide) {
 			return;
 		}
-		state = Flip.getState([imageArea, buttonElem]);
+		flipstate = Flip.getState([imageArea, buttonElem]);
 		await tick();
 
 		if (!buttonElem.classList.contains('fullscreen')) {
@@ -58,7 +57,7 @@
 		}
 		buttonElem.classList.toggle('fullscreen');
 
-		Flip.from(state, {
+		Flip.from(flipstate, {
 			duration: 0.3,
 			ease: 'power1.inOut',
 			absolute: true,
@@ -71,6 +70,14 @@
 				$moving = false;
 			}
 		});
+	};
+
+	$: goHome($state);
+
+	const goHome = (state: stateType) => {
+		if ((state == 'home' || state == 'about') && fullscreen) {
+			makeBigger();
+		}
 	};
 </script>
 
@@ -122,7 +129,12 @@
 					out:fade|global={{ duration: 200 }}
 				>
 					<CopyBox>
-						{@html toggleButton == 'info' ? copy.siteCopy.noImageText : image.prompt}
+						{#if toggleButton == 'info'}
+							{@html copy.siteCopy.noImageText}{:else}
+							{#each image.prompt as prompt}
+								<p>{prompt}</p>
+							{/each}
+						{/if}
 					</CopyBox>
 				</div>
 			{/if}
@@ -198,7 +210,7 @@
 					align-items: center;
 					position: relative;
 
-					h1 {
+					:global(h1) {
 						position: absolute;
 						top: 50%;
 						left: 50%;
@@ -231,6 +243,7 @@
 				color: var(--black);
 				text-align: center;
 				margin: 0px;
+				margin-block: var(--halfPadding);
 			}
 		}
 

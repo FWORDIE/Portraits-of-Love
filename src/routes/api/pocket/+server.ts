@@ -17,48 +17,57 @@ type ImageData = {
 	prompt: string;
 };
 
-// export async function GET() {
-// 	const records: RecordModel[] = await pb.collection('images').getFullList({
-// 		sort: '+created'
-// 	});
-// 	for (let element of records) {
-// 		let imageUrl = pb.files.getUrl(element, element.image);
-// 		console.log(imageUrl);
-// 		let image = {
-// 			url: imageUrl
-// 		};
-// 		const formData = new FormData();
-// 		const imageData = image.url;
-// 		const response = await fetch(imageData);
+export async function GET() {
+	const records: RecordModel[] = await pb.collection('images').getFullList({
+		sort: '+created'
+	});
+	for (let element of records) {
+		let imageUrl = pb.files.getUrl(element, element.image);
+		let image = {
+			url: imageUrl
+		};
+		const formData = new FormData();
+		if (element.hash.length < 60) {
+			const imageData = image.url;
+			const response = await fetch(imageData);
 
-// 		const blob = await response.arrayBuffer();
+			const blob = await response.arrayBuffer();
 
-// 		const sharpImg = sharp(blob);
-// 		const dimensions = await sharpImg.metadata();
-// 		console.log(dimensions);
+			const sharpImg = sharp(blob);
+			const dimensions = await sharpImg.metadata();
 
-// 		let { width, height } = dimensions;
-// 		if (!width) {
-// 			width = 512;
-// 		}
-// 		if (!height) {
-// 			height = 512;
-// 		}
-// 		const hash = encode(
-// 			new Uint8ClampedArray(await sharpImg.raw().ensureAlpha().toBuffer()),
-// 			width,
-// 			height,
-// 			4,
-// 			4
-// 		);
-// 		console.log(element);
+			let { width, height } = dimensions;
+			if (!width) {
+				width = 512;
+			}
+			if (!height) {
+				height = 512;
+			}
+			let hash = encode(
+				new Uint8ClampedArray(await sharpImg.raw().ensureAlpha().toBuffer()),
+				width,
+				height,
+				4,
+				4
+			);
 
-// 		formData.append('hash', hash);
-// 		const webp = await sharp(blob).toFormat('webp').toBuffer();
-// 		formData.append('image', new Blob([webp]));
-// 		const imageUpload = await pb.collection('Images').update(element.id, formData);
-// 	}
-// }
+			hash = blurHashToDataURL(hash) as string;
+			if (dimensions.format !== 'webp') {
+				console.log('not webp');
+				const webp = await sharp(blob).toFormat('webp').toBuffer();
+				formData.append('image', new Blob([webp]));
+			}
+
+			formData.append('width', width.toString());
+			formData.append('height', height.toString());
+
+			formData.append('hash', hash);
+
+			const imageUpload = await pb.collection('Images').update(element.id, formData);
+			console.log(imageUpload);
+		}
+	}
+}
 
 export async function POST({ url, request }: { url: URL; request: Request }) {
 	console.log('UPLOADING');
@@ -98,7 +107,7 @@ const uploader = async (data: userData) => {
 				if (!height) {
 					height = 512;
 				}
-				const hash = encode(
+				let hash = encode(
 					new Uint8ClampedArray(await sharpImg.raw().ensureAlpha().toBuffer()),
 					width,
 					height,
@@ -108,6 +117,7 @@ const uploader = async (data: userData) => {
 
 				const webp = await sharp(blob).toFormat('webp').toBuffer();
 				formData.append('image', new Blob([webp]));
+				hash = blurHashToDataURL(hash) as string;
 				formData.append('hash', hash);
 				formData.append('width', width.toString());
 				formData.append('height', height.toString());
@@ -153,6 +163,7 @@ const uploader = async (data: userData) => {
 
 		const userUpload = await pb.collection('userData').create(uploadData);
 		console.log(await userUpload);
+		return await userUpload.json();
 	} catch (e: any) {
 		return json({ error: e.message || 'User Upload Error' }, { status: 500 });
 	}
