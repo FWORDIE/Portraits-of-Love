@@ -34,7 +34,7 @@
 	};
 
 	const send = () => {
-		window.open(`mailto:[EMAIL]?subject=Potraits%20of%20Love&body=${genEmailString()}`, '_self');
+		window.open(`mailto:${email}?subject=Potraits%20of%20Love&body=${genEmailString()}`, '_self');
 		sent = true;
 	};
 
