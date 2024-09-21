@@ -54,6 +54,9 @@ query all {
     inactiveText(markdown: true)
     inactiveButtonResetText
     inactiveButtonContinueText
+    termsTextPrint(markdown: true)
+    termsYesButtonTextPrint
+    termsNoButtonTextPrint
   }
 }`;
 

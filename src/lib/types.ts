@@ -114,5 +114,8 @@ export interface SiteCopy {
 	inactiveText: string;
 	inactiveButtonResetText: string;
 	inactiveButtonContinueText: string;
-    printText:string;
+	printText: string;
+	termsTextPrint: string;
+	termsYesButtonTextPrint: string;
+	termsNoButtonTextPrint: string;
 }

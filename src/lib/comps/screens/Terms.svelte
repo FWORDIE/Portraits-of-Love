@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CopyBox from '../copyBox.svelte';
 	import ScreenWrapper from '../screenWrapper.svelte';
-	import { stageNumber, gameData, state } from '$lib/store';
+	import { stageNumber, gameData, state, live } from '$lib/store';
 	import ButtonBox from '../buttonBox.svelte';
 	import type { DatoData, ImageType } from '$lib/types';
 	export let copy: DatoData;
@@ -11,7 +11,7 @@
 	export let uploaded = false;
 	let uploading = false;
 
-	const terms = async (upload: boolean) => {
+	const terms = async (upload: boolean, print= false) => {
 		if ($gameData.finalImg === undefined) {
 			$gameData.finalImg = image;
 		}
@@ -48,23 +48,41 @@
 					uploaded = true;
 				});
 		}
+        if(print){
+            sent = true
+        }
 		uploaded = true;
 	};
+
+    export let sent;
 </script>
 
 <ScreenWrapper>
 	<CopyBox>
-		{@html copy.siteCopy.termsText}
+		{#if !$live}
+			{@html copy.siteCopy.termsText}
+		{:else}
+			{@html copy.siteCopy.termsTextPrint}
+		{/if}
 	</CopyBox>
 </ScreenWrapper>
 <ButtonBox
 	>{#if !uploading}
-		<button class="textButton" on:click={() => terms(false)}>
-			{@html copy.siteCopy.termsNoButtonText}
-		</button>
-		<button class="textButton" on:click={() => terms(true)}>
-			{@html copy.siteCopy.termsYesButtonText}
-		</button>
+		{#if !$live}
+			<button class="textButton" on:click={() => terms(false)}>
+				{@html copy.siteCopy.termsNoButtonText}
+			</button>
+			<button class="textButton" on:click={() => terms(true)}>
+				{@html copy.siteCopy.termsYesButtonText}
+			</button>
+            {:else}
+            <button class="textButton" on:click={() => terms(false, true)}>
+				{@html copy.siteCopy.termsNoButtonTextPrint}
+			</button>
+			<button class="textButton" on:click={() => terms(true, true)}>
+				{@html copy.siteCopy.termsYesButtonTextPrint}
+			</button>
+            {/if}
 	{:else}
 		uploading...
 	{/if}
