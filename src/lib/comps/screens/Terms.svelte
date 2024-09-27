@@ -5,13 +5,14 @@
 	import ButtonBox from '../buttonBox.svelte';
 	import type { DatoData, ImageType } from '$lib/types';
 	export let copy: DatoData;
+    let print: boolean;
 
 	let image = $gameData.stages[$stageNumber].images.find((image) => image.chosen) as ImageType;
 
 	export let uploaded = false;
 	let uploading = false;
 
-	const terms = async (upload: boolean, print= false) => {
+	const terms = async (upload: boolean, shouldPrint = false) => {
 		if ($gameData.finalImg === undefined) {
 			$gameData.finalImg = image;
 		}
@@ -48,13 +49,10 @@
 					uploaded = true;
 				});
 		}
-        if(print){
-            sent = true
+        if(shouldPrint){
+            print = true
         }
-		uploaded = true;
 	};
-
-    export let sent;
 </script>
 
 <ScreenWrapper>
@@ -75,14 +73,14 @@
 			<button class="textButton" on:click={() => terms(true)}>
 				{@html copy.siteCopy.termsYesButtonText}
 			</button>
-            {:else}
-            <button class="textButton" on:click={() => terms(false, true)}>
+		{:else}
+            <button class="textButton" on:click={() => terms(false, false)}>
 				{@html copy.siteCopy.termsNoButtonTextPrint}
 			</button>
 			<button class="textButton" on:click={() => terms(true, true)}>
 				{@html copy.siteCopy.termsYesButtonTextPrint}
 			</button>
-            {/if}
+		{/if}
 	{:else}
 		uploading...
 	{/if}

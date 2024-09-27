@@ -1,14 +1,20 @@
 <script lang="ts">
+	import Print from '../print.svelte';
 	import CopyBox from '../copyBox.svelte';
 	import ScreenWrapper from '../screenWrapper.svelte';
 	import { stageNumber, gameData, state, live } from '$lib/store';
 	import ButtonBox from '../buttonBox.svelte';
-	import type { DatoData, userData } from '$lib/types';
+	import type { DatoData, userData, ImageType } from '$lib/types';
 	import InputBox from '../inputBox.svelte';
 	import { returnPromptArray } from '$lib/funcs';
 	export let copy: DatoData;
 
 	export let sent = false;
+
+
+	let image: ImageType;
+	let prompt: string;
+	let printing = false;
 
 	const genEmailString = () => {
 		let text = '';
@@ -39,6 +45,15 @@
 	};
 
 	const print = () => {
+		if ($gameData.finalImg){
+			image = $gameData.finalImg;
+			prompt = genPromptString($gameData, false);
+		}
+		printing = true;
+	};
+
+	const printDone = () => {
+		printing = false;
 		sent = true;
 	};
 
@@ -70,6 +85,8 @@
 		</button>
 	{/if}
 </ButtonBox>
-
+{#if printing && image}
+	<Print image={image.url} prompt={prompt} on:printDone={printDone}/>
+{/if}
 <style lang="scss">
 </style>

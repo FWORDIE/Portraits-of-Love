@@ -10,6 +10,7 @@
 	let select = false;
 
 	export let copy: DatoData;
+	$: tries = $maxStages - ($stageNumber + 1);
 
 	const next = () => {
 		select = true;
@@ -106,7 +107,7 @@
 					{#if $maxStages > $stageNumber + 1}
 						<button class="textButton" on:click={restartFunc}>
 							{@html copy.siteCopy.restartButtonText}
-							({$maxStages - ($stageNumber + 1)} trys left)
+							({tries} {tries == 1 ? "try" : "tries"} left)
 						</button>
 					{:else}
 						<button class="textButton" on:click={() => sharePrompt()}> Share prompt </button>
