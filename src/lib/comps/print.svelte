@@ -29,7 +29,7 @@
 		console.log("fontSize: ", fontSize);
 		printJS({ printable: 'printContent', type:'html', onPrintDialogClose: printDone, scanStyles: false, style: `
 
-		@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400..800&display=swap');
+		// @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400..800&display=swap');
 
 		* {
 			margin: 0px;
@@ -66,6 +66,7 @@
 			font-family: "EB Garamond", serif;
 			font-style: italic;
 			font-size: ${fontSize};
+            font-weight:400;
 			text-align: center;
 			color: black;
 			width: 90%;
