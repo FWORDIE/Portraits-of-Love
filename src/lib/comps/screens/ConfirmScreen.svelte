@@ -29,7 +29,7 @@
 {:else if !$gameData.note}
 	<Note {copy}></Note>
 {:else if !uploaded}
-	<Terms {copy} bind:uploaded bind:sent></Terms>
+	<Terms {copy} bind:uploaded></Terms>
 {:else if !sent}
 	<Send bind:sent {copy}></Send>
 {:else if sent}

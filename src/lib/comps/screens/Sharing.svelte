@@ -9,6 +9,8 @@
 
 	export let sharing: boolean;
 
+	$: tries = $maxStages - ($stageNumber + 1);
+
 	const sharePrompt = () => {
 		$gameData.finalImg = false;
 		$gameData = $gameData;
@@ -39,7 +41,7 @@
 	{#if $maxStages > $stageNumber + 1}
 		<button class="textButton" on:click={refineFunc}>
 			{@html copy.siteCopy.refineButtonText}
-			({$maxStages - ($stageNumber + 1)} trys left)
+			({tries} {tries == 1 ? "try" : "tries"} left)
 		</button>
 	{:else}
 		<button class="textButton" on:click={() => sharePrompt()}> Share prompt </button>
