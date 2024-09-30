@@ -10,9 +10,6 @@
 	export let image;
 	export let prompt;
 
-
-
-
     let printJS: any;
 	onMount(async ()=>{
 		const p = await import('print-js')
@@ -29,7 +26,13 @@
 		console.log("fontSize: ", fontSize);
 		printJS({ printable: 'printContent', type:'html', onPrintDialogClose: printDone, scanStyles: false, style: `
 
-		// @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@1,400..800&display=swap');
+		@font-face {
+			font-display: swap;
+			font-family: 'Gap Sans';
+			font-style: normal;
+			font-weight: 900;
+			src: url('/fonts/GapSansBlack.ttf') format('truetype');
+		}
 
 		* {
 			margin: 0px;
@@ -40,7 +43,7 @@
 			margin: 0px;
 			padding: 0px;
 
-			width: 512px;
+			width: 100%;
 
 			display: flex;
 			flex-direction: column;
@@ -58,15 +61,14 @@
 		}
 
 		.prompttext {
-			height: 220px;
+			height: 150px;
 			display: flex;
 			flex-direction: row;
 			align-items: center;
 			justify-content: space-around;
-			font-family: "EB Garamond", serif;
-			font-style: italic;
+			font-family: "Gap Sans", sans-serif;
 			font-size: ${fontSize};
-            font-weight:400;
+            font-weight: 900;
 			text-align: center;
 			color: black;
 			width: 90%;
