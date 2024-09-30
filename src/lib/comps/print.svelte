@@ -15,13 +15,13 @@
 		const p = await import('print-js')
 		printJS = p.default
 
-		let fontSize = "16px";
+		let fontSize = "12px";
 		if (prompt.length < 64){
-			fontSize = "32px";
+			fontSize = "28px";
 		} else if (prompt.length < 128){
-			fontSize = "24px";
-		} else if (prompt.length < 256){
 			fontSize = "20px";
+		} else if (prompt.length < 256){
+			fontSize = "16px";
 		}
 		console.log("fontSize: ", fontSize);
 		printJS({ printable: 'printContent', type:'html', onPrintDialogClose: printDone, scanStyles: false, style: `
@@ -72,7 +72,9 @@
 			text-align: center;
 			color: black;
 			width: 90%;
+			overflow: hidden;
 		}
+
 		@media print {
 			header,footer {
 				display: none;
