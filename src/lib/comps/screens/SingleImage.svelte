@@ -29,5 +29,7 @@
 	.imageContainer {
 		padding: var(--largePadding);
 		border-radius: var(--padding);
+		width: 512px;
+		align-self: center;
 	}
 </style>
