@@ -249,7 +249,7 @@
 
 		.onImage {
 			position: absolute;
-			left: var(--padding);
+			left: 10%;
 			bottom: var(--padding);
 			z-index: 20;
 			cursor: pointer;
