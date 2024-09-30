@@ -5,14 +5,14 @@
 	import ButtonBox from '../buttonBox.svelte';
 	import type { DatoData, ImageType } from '$lib/types';
 	export let copy: DatoData;
-    let print: boolean;
+    export let sent: boolean;
 
 	let image = $gameData.stages[$stageNumber].images.find((image) => image.chosen) as ImageType;
 
 	export let uploaded = false;
 	let uploading = false;
 
-	const terms = async (upload: boolean, shouldPrint = false) => {
+	const terms = async (upload: boolean, skipSend = false) => {
 		if ($gameData.finalImg === undefined) {
 			$gameData.finalImg = image;
 		}
@@ -29,28 +29,31 @@
 					gameData: $gameData
 				})
 			})
-				.then((response) => {
-					if (response.status >= 400 && response.status < 600) {
-						throw new Error('Bad response from server');
-					}
-					return response;
-				})
-				.then(async (uploadResponse) => {
-					uploadResponse = await uploadResponse.json();
-					console.log(uploadResponse);
-					// Your response to manipulate
-				})
-				.catch((error) => {
-					// Your error is here!
-					console.log(error);
-				})
-				.finally(() => {
-					uploading = false;
-					uploaded = true;
-				});
+			.then((response) => {
+				if (response.status >= 400 && response.status < 600) {
+					throw new Error(`Bad response from server: ${response.status}`);
+				}
+				return response;
+			})
+			.then(async (uploadResponse) => {
+				uploadResponse = await uploadResponse.json();
+				console.log(uploadResponse);
+				// Your response to manipulate
+			})
+			.catch((error) => {
+				// Your error is here!
+				console.log(error);
+			})
+			.finally(() => {
+				uploading = false;
+				uploaded = true;
+			});
+		} else {
+			uploaded = true;
 		}
-        if(shouldPrint){
-            print = true
+
+        if(skipSend){
+            sent = true;
         }
 	};
 </script>
@@ -74,10 +77,10 @@
 				{@html copy.siteCopy.termsYesButtonText}
 			</button>
 		{:else}
-            <button class="textButton" on:click={() => terms(false, false)}>
+            <button class="textButton" on:click={() => terms(false, true)}>
 				{@html copy.siteCopy.termsNoButtonTextPrint}
 			</button>
-			<button class="textButton" on:click={() => terms(true, true)}>
+			<button class="textButton" on:click={() => terms(true, false)}>
 				{@html copy.siteCopy.termsYesButtonTextPrint}
 			</button>
 		{/if}
