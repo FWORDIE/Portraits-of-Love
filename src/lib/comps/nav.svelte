@@ -53,8 +53,8 @@
 	.title {
 		font-size: var(--font-size-md);
 		color: var(--black);
-		font-family: 'EB Garamond';
-		font-weight: 800;
+		font-family: $title_font-family;
+		font-weight: $title_font-weight;
 		width: 100%;
 		text-align: center;
 		background-color: transparent;

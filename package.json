@@ -43,6 +43,7 @@
 		"print-js": "^1.6.0",
 		"sass": "^1.77.6",
 		"scss": "^0.2.4",
-		"sharp": "^0.33.5"
+		"sharp": "^0.33.5",
+		"svelte-preprocess": "^6.0.3"
 	}
 }

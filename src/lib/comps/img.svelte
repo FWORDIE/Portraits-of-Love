@@ -218,7 +218,7 @@
 						color: var(--white);
 						text-align: center;
 						margin: 0px;
-						font-family: 'EB Garamond';
+						font-family: $title_font-family;
 						width: 100%;
 					}
 				}

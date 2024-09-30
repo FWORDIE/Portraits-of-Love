@@ -125,8 +125,8 @@
 			.title {
 				font-size: var(--font-size-xl);
 				color: var(--black);
-				font-family: 'EB Garamond';
-				font-weight: 800;
+				font-family: $title_font-family;
+				font-weight: $title_font-weight;
 				margin-bottom: var(--padding);
 			}
 			flex-direction: column;

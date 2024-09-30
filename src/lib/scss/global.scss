@@ -1,3 +1,4 @@
+
 :root {
 	font-family: 'texgyreheroscn';
 	box-sizing: border-box;
@@ -38,21 +39,13 @@
 	--shadowTwo: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
-/* eb-garamond-800 - latin */
+/* Gap Sans Black */
 @font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-	font-family: 'EB Garamond';
+	font-display: swap;
+	font-family: 'Gap Sans';
 	font-style: normal;
-	font-weight: 800;
-	src: url('fonts/eb-garamond-v27-latin-800.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-@font-face {
-	font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-	font-family: 'EB Garamond';
-	font-style: italic;
-	font-weight: 400;
-	src: url('fonts/EBGaramond-Italic.woff') format('woff'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+	font-weight: 900;
+	src: url('fonts/GapSansBlack.ttf') format('truetype');
 }
 
 /* karla-regular - latin */
@@ -188,7 +181,7 @@ html.lenis body {
 	position: fixed;
 	top: 0;
 	left: 0;
-    
+
 	// background-color: var(--background) !important;
 	padding: var(--largePadding) !important;
 
