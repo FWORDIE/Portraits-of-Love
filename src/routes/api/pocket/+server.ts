@@ -162,8 +162,8 @@ const uploader = async (data: userData) => {
 		};
 
 		const userUpload = await pb.collection('userData').create(uploadData);
-		console.log(await userUpload);
-		return await userUpload.json();
+		// console.log(await userUpload);
+		return json(await userUpload);
 	} catch (e: any) {
 		return json({ error: e.message || 'User Upload Error' }, { status: 500 });
 	}
