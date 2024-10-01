@@ -15,13 +15,15 @@
 		const p = await import('print-js')
 		printJS = p.default
 
-		let fontSize = "12px";
+		let fontSize
 		if (prompt.length < 64){
-			fontSize = "28px";
+			fontSize = "22px";
 		} else if (prompt.length < 128){
-			fontSize = "20px";
+			fontSize = "18px";
 		} else if (prompt.length < 256){
-			fontSize = "16px";
+			fontSize = "15px";
+		} else {
+			fontSize = "12px";
 		}
 		console.log("fontSize: ", fontSize);
 		printJS({ printable: 'printContent', type:'html', onPrintDialogClose: printDone, scanStyles: false, style: `
