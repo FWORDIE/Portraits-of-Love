@@ -61,7 +61,7 @@
 		}
 
 		.prompttext {
-			height: 150px;
+			height: 125px;
 			display: flex;
 			flex-direction: row;
 			align-items: center;
