@@ -28,6 +28,8 @@
 		height: 100%;
         display: flex;
         flex-direction: column;
+        width: 100%;
+        align-items: center;
 
         &.bottom{
             justify-content: flex-end;

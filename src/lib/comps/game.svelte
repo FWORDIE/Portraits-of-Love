@@ -38,6 +38,7 @@
 		justify-content: center;
 		z-index: 4;
         padding-block: var(--largePadding);
+        align-items: center;
 		// position: relative;
 	}
 </style>

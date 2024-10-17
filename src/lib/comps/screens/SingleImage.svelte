@@ -31,5 +31,7 @@
 		border-radius: var(--padding);
 		width: 512px;
 		align-self: center;
+		max-height: 50vh;
+		max-width: 50vh;
 	}
 </style>

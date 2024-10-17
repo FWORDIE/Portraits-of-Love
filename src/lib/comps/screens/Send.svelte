@@ -11,7 +11,6 @@
 
 	export let sent = false;
 
-
 	let image: ImageType;
 	let prompt: string;
 	let printing = false;
@@ -45,11 +44,17 @@
 	};
 
 	const print = () => {
-		if ($gameData.finalImg){
+		if ($gameData.finalImg) {
 			image = $gameData.finalImg;
 			prompt = genPromptString($gameData, false);
 		}
 		printing = true;
+		// There needs to be a way to handle printing with out prompt
+		// skipping now
+		if (image) {
+			sent = true;
+			printing = false;
+		}
 	};
 
 	const printDone = () => {
@@ -86,7 +91,12 @@
 	{/if}
 </ButtonBox>
 {#if printing && image}
-	<Print image={image.url} prompt={prompt} on:printDone={printDone}/>
+	<!-- There needs to be a way to handle printing with out prompt
+Currently  "image" is undefined if the person just wants to share prompt
+Can't test so wont change. Currently will just skip?
+-->
+	<Print image={image.url} {prompt} on:printDone={printDone} />
 {/if}
+
 <style lang="scss">
 </style>

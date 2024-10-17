@@ -107,7 +107,8 @@
 					{#if $maxStages > $stageNumber + 1}
 						<button class="textButton" on:click={restartFunc}>
 							{@html copy.siteCopy.restartButtonText}
-							({tries} {tries == 1 ? "try" : "tries"} left)
+							({tries}
+							{tries == 1 ? 'try' : 'tries'} left)
 						</button>
 					{:else}
 						<button class="textButton" on:click={() => sharePrompt()}> Share prompt </button>
@@ -149,6 +150,8 @@
 		flex: 1;
 		gap: var(--padding);
 		padding: var(--largePadding);
+		max-height: 50vh;
+		max-width: 50vh;
 	}
 
 	.grid__item {

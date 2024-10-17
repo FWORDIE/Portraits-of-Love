@@ -58,6 +58,7 @@
 		height: 100%;
 		padding: var(--largePadding);
 		z-index: 3;
+        display: flex;
 		:global(a) {
 			color: var(--black);
 		}

@@ -93,7 +93,7 @@
 			{#if image.data}
 				<DatoImg class="imgLike" data={image.data} fadeInDuration={300}></DatoImg>
 			{:else}
-				<img src={image.image} alt="Generated output based of your prompt" />
+				<img src={image.image} alt="Generated output based of your prompt" class="imgLike"/>
 			{/if}
 		{:else}
 			<div class="imgLike noImg">
@@ -175,6 +175,7 @@
 		justify-content: center;
 		align-items: space-between;
 		text-decoration: none;
+        align-items: center;
 		cursor: pointer;
 		// transition: all 300ms;
 		&.offset {
@@ -190,6 +191,7 @@
 			width: 100%;
 			box-sizing: border-box;
 			position: relative;
+            max-width: 50vh;
 
 			&:only-child {
 				justify-content: center;
@@ -249,7 +251,7 @@
 
 		.onImage {
 			position: absolute;
-			left: 10%;
+			left: var(--padding);
 			bottom: var(--padding);
 			z-index: 20;
 			cursor: pointer;

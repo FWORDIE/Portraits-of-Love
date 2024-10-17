@@ -18,12 +18,13 @@
 		text-align: center;
 		box-sizing: border-box;
 		width: 100%;
-		height: 100%;
+		// height: 100%;
 		flex: 1;
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 		justify-content: center;
+        max-width: calc(50vh + (2 * var(--largePadding)));
 		&.bottom {
 			justify-content: flex-end;
             flex: 0.5;
