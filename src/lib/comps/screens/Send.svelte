@@ -51,7 +51,7 @@
 		printing = true;
 		// There needs to be a way to handle printing with out prompt
 		// skipping now
-		if (image) {
+		if (!image) {
 			sent = true;
 			printing = false;
 		}
