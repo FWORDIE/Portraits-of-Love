@@ -22,7 +22,7 @@ export async function GET() {
 		sort: '+created'
 	});
 	for (let element of records) {
-		let imageUrl = pb.files.getUrl(element, element.image);
+		let imageUrl = pb.files.getURL(element, element.image);
 		let image = {
 			url: imageUrl
 		};

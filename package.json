@@ -39,7 +39,7 @@
 		"normalize": "^0.3.1",
 		"normalize-wheel": "^1.0.1",
 		"ogl": "^1.0.8",
-		"pocketbase": "^0.21.4",
+		"pocketbase": "^0.25.1",
 		"print-js": "^1.6.0",
 		"sass": "^1.77.6",
 		"scss": "^0.2.4",
