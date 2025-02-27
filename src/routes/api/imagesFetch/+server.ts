@@ -24,7 +24,7 @@ export async function GET({ url }: { url: URL }) {
 				let obj = undefined;
 
 				if (data.expand && data.expand.finalImage) {
-					imageUrl = pb.files.getURL(data.expand.finalImage, data.expand.finalImage.image);
+					imageUrl = pb.files.getUrl(data.expand.finalImage, data.expand.finalImage.image);
 					obj = {
 						src: imageUrl,
 						width: data.expand.finalImage.width,

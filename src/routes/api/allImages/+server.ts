@@ -3,7 +3,7 @@ import PocketBase, { type RecordModel } from 'pocketbase';
 import { POCKET_PASS, POCKET_URL, POCKET_USER } from '$env/static/private';
 
 const pb = new PocketBase(POCKET_URL);
-const authData = await pb.collection("_superusers").authWithPassword(POCKET_USER, POCKET_PASS);
+const authData = await pb.admins.authWithPassword(POCKET_USER, POCKET_PASS);
 
 export async function GET({ url }: { url: URL }) {
 	const newUrl = new URL(url);
@@ -24,7 +24,7 @@ export async function GET({ url }: { url: URL }) {
 				let obj = undefined;
 
 				if (data.expand && data.expand.finalImage) {
-					imageUrl = pb.files.getURL(data.expand.finalImage, data.expand.finalImage.image);
+					imageUrl = pb.files.getUrl(data.expand.finalImage, data.expand.finalImage.image);
 					obj = {
 						src: imageUrl,
 						width: data.expand.finalImage.width,
