@@ -11,7 +11,7 @@ const imageSize = 'square';
 const test = false;
 
 const extraPrompt =
-	'ametuer film photography, grain, disposable, candid, family, poliriod, nostalgic:';
+	'amateur film photography, grain, disposable, candid, family, polaroid, nostalgic: ';
 fal.config({
 	credentials: FAL_KEY
 });
@@ -116,6 +116,9 @@ const genImg = async (
 			input.guidance_scale = 1;
 			input.num_inference_steps = 28;
 		} else {
+			input.prompt =
+				'amateur film photography, grain, disposable, candid, family, polaroid, nostalgic: ' +
+				prompt;
 			input.output_format = 'jpeg';
 			input.style_name = '(No style)';
 		}
