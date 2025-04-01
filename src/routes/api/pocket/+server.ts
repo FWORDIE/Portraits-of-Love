@@ -8,6 +8,7 @@ import sharp from 'sharp';
 import { blurHashToDataURL } from '$lib/funcs';
 import { LIVE } from '$env/static/private';
 const pb = new PocketBase(POCKET_URL);
+
 const authData = await pb.admins.authWithPassword(POCKET_USER, POCKET_PASS);
 
 type ImageData = {

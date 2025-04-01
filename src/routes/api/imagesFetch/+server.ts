@@ -3,8 +3,9 @@ import PocketBase, { type RecordModel } from 'pocketbase';
 import { POCKET_PASS, POCKET_URL, POCKET_USER } from '$env/static/private';
 
 const pb = new PocketBase(POCKET_URL);
-const authData = await pb.admins.authWithPassword(POCKET_USER, POCKET_PASS);
+console.log('HRLP')
 
+const authData = await pb.admins.authWithPassword(POCKET_USER, POCKET_PASS);
 export async function GET({ url }: { url: URL }) {
 	const newUrl = new URL(url);
 	const numOfImages = parseInt(newUrl.searchParams.get('images') || '0');
