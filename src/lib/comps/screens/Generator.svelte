@@ -68,7 +68,7 @@
 					new URLSearchParams({
 						system: copy.siteCopy.systemPrompt,
 						prompt: getPrompt(prompt),
-						model: 'schnell',
+						model: 'fal-ai/sana/sprint',
 						number: '4',
 						image: getImage()
 					}).toString()

@@ -18,7 +18,7 @@ fal.config({
 
 export async function GET({ url }: { url: URL }) {
 	const newUrl = new URL(url);
-    const system = newUrl.searchParams.get('system') || extraPrompt;
+	const system = newUrl.searchParams.get('system') || extraPrompt;
 	const prompt = newUrl.searchParams.get('prompt');
 	const model = newUrl.searchParams.get('model') || 'schnell';
 	const number = parseInt(newUrl.searchParams.get('number') || '1');
@@ -67,7 +67,7 @@ export async function GET({ url }: { url: URL }) {
 		return json({ error: 'No prompt dumbo' }, { status: 500 });
 	}
 	try {
-        console.log('Genning')
+		console.log('Genning');
 		let images: ImageType[] | any = await genImg(system, prompt, model, number, image);
 		if (images[0]) {
 			images = await Promise.all(
@@ -90,7 +90,7 @@ export async function GET({ url }: { url: URL }) {
 const genImg = async (
 	extra: string,
 	prompt: string,
-	model = 'schnell',
+	model = 'fal-ai/sana/sprint',
 	number = 1,
 	image: null | string = null
 ) => {
@@ -100,23 +100,27 @@ const genImg = async (
 			prompt: extra + prompt,
 			image_size: imageSize,
 			enable_safety_checker: true,
-			num_inference_steps: 12,
-			num_images: number
+			num_inference_steps: 2,
+			num_images: number,
+			guidance_scale: 2
 		};
 
-
-
-		if (model != 'schnell') {
+		if (model != 'fal-ai/sana/sprint') {
 			input.guidance_scale = 1;
 			input.num_inference_steps = 28;
 		}
 		if (image) {
 			input.image_url = image;
-			model = 'dev/image-to-image';
-            input.guidance_scale = getRandomArbitrary(1,5);
-
+			model = 'fal-ai/flux/dev/image-to-image';
+			input.guidance_scale = getRandomArbitrary(1, 5);
+			input.guidance_scale = 1;
+			input.num_inference_steps = 28;
+		} else {
+			input.output_format = 'jpeg';
+			input.style_name = '(No style)';
 		}
-		const result: Result = await fal.subscribe(`fal-ai/flux/${model}`, {
+		console.log(input, model, image);
+		const result: Result = await fal.subscribe(`${model}`, {
 			input: input,
 			logs: true,
 			onQueueUpdate: (update) => {
@@ -132,6 +136,7 @@ const genImg = async (
 			return image;
 		});
 
+		console.log(result.images.length);
 		return result.images as ImageType[];
 	} catch (e) {
 		console.error('Error in genImg function:', e);
